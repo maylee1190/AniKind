@@ -46,7 +46,7 @@ export async function build(p){
  rect(s,1620,687,720,58,'#fff8f4',C.coral,true);
  tx(s,'版本冲突：409 后重取进度   /   完成：返回 3 张知识卡',1633,695,694,42,21,C.coral,false,'center');
  result(s,'后端判定完成；未解锁时不返回卡片正文。',1620,763,720);
- tx(s,'server/app.mjs  +  db.mjs  +  public/js/puzzles.js  ·  G1–G4',1620,847,720,26,18,C.faint);
+ tx(s,'server/app.mjs  +  core.mjs  +  public/js/puzzles.js  ·  G1–G4',1620,847,720,26,18,C.faint);
  // Bottom row: two wider compositions.
  head(s,'B1','语言切换与交互状态保留','翻译界面时，需要维持正在进行的探索与拼图。','国际化 / 状态恢复',60,934,1110);
  label(s,'BEFORE  /  中文界面',60,1100,450);
