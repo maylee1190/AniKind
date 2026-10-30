@@ -1,0 +1,845 @@
+[
+  {
+    "id": 1,
+    "name": "爪哇犀",
+    "scientific": "Rhinoceros sondaicus",
+    "status": "CR",
+    "region": "亚洲",
+    "ecosystem": "热带森林",
+    "threat": "种群过小、疾病、栖息地单一",
+    "lon": 105.5,
+    "lat": -6.8,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8324",
+      "view": "asia",
+      "position": [
+        195,
+        452
+      ],
+      "icon": "/assets/globe/1-8324-98735.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 2,
+    "name": "苏门答腊猩猩",
+    "scientific": "Pongo abelii",
+    "status": "CR",
+    "region": "亚洲",
+    "ecosystem": "热带雨林",
+    "threat": "森林砍伐、种植园扩张、猎杀",
+    "lon": 98.7,
+    "lat": 3.3,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8321",
+      "view": "asia",
+      "position": [
+        163,
+        415
+      ],
+      "icon": "/assets/globe/1-8321-d92d5.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 3,
+    "name": "远东豹",
+    "scientific": "Panthera pardus orientalis",
+    "status": "CR",
+    "region": "亚洲",
+    "ecosystem": "温带森林",
+    "threat": "盗猎、猎物减少、种群隔离",
+    "lon": 131.5,
+    "lat": 44.5,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8290",
+      "view": "asia",
+      "position": [
+        248,
+        279
+      ],
+      "icon": "/assets/globe/1-8290-c74e6.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 4,
+    "name": "长江江豚",
+    "scientific": "Neophocaena asiaeorientalis asiaeorientalis",
+    "status": "CR",
+    "region": "亚洲",
+    "ecosystem": "淡水河流",
+    "threat": "误捕、船运、水污染",
+    "lon": 116.7,
+    "lat": 30.5,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8304",
+      "view": "asia",
+      "position": [
+        235,
+        323
+      ],
+      "icon": "/assets/globe/1-8304-83d46.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 5,
+    "name": "虎",
+    "scientific": "Panthera tigris",
+    "status": "EN",
+    "region": "亚洲",
+    "ecosystem": "森林与草地",
+    "threat": "盗猎、栖息地破碎、猎物减少",
+    "lon": 79,
+    "lat": 22,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8307",
+      "view": "asia",
+      "position": [
+        114,
+        343
+      ],
+      "icon": "/assets/globe/1-8307-1d0c1.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 6,
+    "name": "雪豹",
+    "scientific": "Panthera uncia",
+    "status": "VU",
+    "region": "亚洲",
+    "ecosystem": "高山荒漠",
+    "threat": "偷猎、人兽冲突、气候变化",
+    "lon": 83,
+    "lat": 40,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8293",
+      "view": "asia",
+      "position": [
+        129,
+        288
+      ],
+      "icon": "/assets/globe/1-8293-2f0b5.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 7,
+    "name": "亚洲象",
+    "scientific": "Elephas maximus",
+    "status": "EN",
+    "region": "亚洲",
+    "ecosystem": "森林与草地",
+    "threat": "栖息地破碎、人象冲突",
+    "lon": 101,
+    "lat": 15,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8313",
+      "view": "asia",
+      "position": [
+        167,
+        370
+      ],
+      "icon": "/assets/globe/1-8313-29f44.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 8,
+    "name": "小熊猫",
+    "scientific": "Ailurus fulgens",
+    "status": "EN",
+    "region": "亚洲",
+    "ecosystem": "山地森林",
+    "threat": "森林破碎、偷猎",
+    "lon": 90,
+    "lat": 27,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8310",
+      "view": "asia",
+      "position": [
+        154,
+        327
+      ],
+      "icon": "/assets/globe/1-8310-1962a.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 9,
+    "name": "黑犀",
+    "scientific": "Diceros bicornis",
+    "status": "CR",
+    "region": "非洲",
+    "ecosystem": "稀树草原",
+    "threat": "犀角盗猎、栖息地减少",
+    "lon": 31,
+    "lat": -23,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:1190",
+      "view": "africa",
+      "position": [
+        242,
+        497
+      ],
+      "icon": "/assets/globe/1-1190-69e76.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 10,
+    "name": "非洲森林象",
+    "scientific": "Loxodonta cyclotis",
+    "status": "CR",
+    "region": "非洲",
+    "ecosystem": "热带雨林",
+    "threat": "象牙盗猎、森林开发",
+    "lon": 17,
+    "lat": 2,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8313",
+      "view": "africa",
+      "position": [
+        212,
+        422
+      ],
+      "icon": "/assets/globe/1-8313-29f44.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 11,
+    "name": "东部低地大猩猩",
+    "scientific": "Gorilla beringei graueri",
+    "status": "CR",
+    "region": "非洲",
+    "ecosystem": "山地雨林",
+    "threat": "捕猎、冲突、采矿开发",
+    "lon": 28,
+    "lat": -2,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:1166",
+      "view": "africa",
+      "position": [
+        240,
+        431
+      ],
+      "icon": null,
+      "emptyInFigma": true,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 12,
+    "name": "黑猩猩",
+    "scientific": "Pan troglodytes",
+    "status": "EN",
+    "region": "非洲",
+    "ecosystem": "森林与林地",
+    "threat": "栖息地减少、猎杀、疾病",
+    "lon": 12,
+    "lat": 4,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:1187",
+      "view": "africa",
+      "position": [
+        180,
+        397
+      ],
+      "icon": "/assets/globe/1-1187-28b93.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 13,
+    "name": "非洲野犬",
+    "scientific": "Lycaon pictus",
+    "status": "EN",
+    "region": "非洲",
+    "ecosystem": "草原与稀树草原",
+    "threat": "栖息地破碎、疾病、人兽冲突",
+    "lon": 24,
+    "lat": -18,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:1197",
+      "view": "africa",
+      "position": [
+        212,
+        468
+      ],
+      "icon": "/assets/globe/1-1197-5c8d8.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 14,
+    "name": "狮",
+    "scientific": "Panthera leo",
+    "status": "VU",
+    "region": "非洲",
+    "ecosystem": "草原与稀树草原",
+    "threat": "猎物减少、栖息地丧失、人兽冲突",
+    "lon": 23,
+    "lat": -7,
+    "design": null
+  },
+  {
+    "id": 15,
+    "name": "欧洲鳗鲡",
+    "scientific": "Anguilla anguilla",
+    "status": "CR",
+    "region": "欧洲",
+    "ecosystem": "河流、湿地与海洋",
+    "threat": "过度捕捞、水坝、污染",
+    "lon": -4,
+    "lat": 46,
+    "design": null
+  },
+  {
+    "id": 16,
+    "name": "欧洲水貂",
+    "scientific": "Mustela lutreola",
+    "status": "CR",
+    "region": "欧洲",
+    "ecosystem": "河岸与湿地",
+    "threat": "栖息地减少、外来物种竞争",
+    "lon": 24,
+    "lat": 56,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:1204",
+      "view": "africa",
+      "position": [
+        211,
+        264
+      ],
+      "icon": "/assets/globe/1-1204-b7024.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 17,
+    "name": "扁鲨",
+    "scientific": "Squatina squatina",
+    "status": "CR",
+    "region": "欧洲",
+    "ecosystem": "近岸海域",
+    "threat": "底拖网与渔业误捕",
+    "lon": -15,
+    "lat": 28,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:1217",
+      "view": "africa",
+      "position": [
+        126,
+        341
+      ],
+      "icon": null,
+      "emptyInFigma": true,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 18,
+    "name": "伊比利亚猞猁",
+    "scientific": "Lynx pardinus",
+    "status": "VU",
+    "region": "欧洲",
+    "ecosystem": "地中海灌丛",
+    "threat": "猎物减少、道路致死、栖息地破碎",
+    "lon": -5,
+    "lat": 38,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:1210",
+      "view": "africa",
+      "position": [
+        157,
+        320
+      ],
+      "icon": "/assets/globe/1-1210-2596a.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 19,
+    "name": "地中海僧海豹",
+    "scientific": "Monachus monachus",
+    "status": "VU",
+    "region": "欧洲",
+    "ecosystem": "地中海近岸",
+    "threat": "渔业冲突、栖息地干扰",
+    "lon": 24,
+    "lat": 37,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:1206",
+      "view": "africa",
+      "position": [
+        229,
+        322
+      ],
+      "icon": "/assets/globe/1-1206-56099.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 20,
+    "name": "小头鼠海豚",
+    "scientific": "Phocoena sinus",
+    "status": "CR",
+    "region": "北美洲",
+    "ecosystem": "近岸海域",
+    "threat": "刺网误捕、非法捕捞",
+    "lon": -114.5,
+    "lat": 31,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6360",
+      "view": "americas",
+      "position": [
+        124,
+        342
+      ],
+      "icon": "/assets/globe/1-6360-56099.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 21,
+    "name": "北大西洋露脊鲸",
+    "scientific": "Eubalaena glacialis",
+    "status": "CR",
+    "region": "北美洲",
+    "ecosystem": "北大西洋",
+    "threat": "渔具缠绕、船只碰撞",
+    "lon": -65,
+    "lat": 43,
+    "design": null
+  },
+  {
+    "id": 22,
+    "name": "黑足鼬",
+    "scientific": "Mustela nigripes",
+    "status": "EN",
+    "region": "北美洲",
+    "ecosystem": "温带草原",
+    "threat": "草原退化、食物减少、疾病",
+    "lon": -104,
+    "lat": 44,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6358",
+      "view": "americas",
+      "position": [
+        176,
+        299
+      ],
+      "icon": "/assets/globe/1-6358-2f9f7.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 23,
+    "name": "美洲鹤",
+    "scientific": "Grus americana",
+    "status": "EN",
+    "region": "北美洲",
+    "ecosystem": "湿地与草原",
+    "threat": "湿地丧失、迁徙风险",
+    "lon": -103,
+    "lat": 52,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6362",
+      "view": "americas",
+      "position": [
+        211,
+        278
+      ],
+      "icon": "/assets/globe/1-6362-3eb28.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 24,
+    "name": "北极熊",
+    "scientific": "Ursus maritimus",
+    "status": "VU",
+    "region": "北极地区",
+    "ecosystem": "海冰",
+    "threat": "海冰减少、气候变化",
+    "lon": -95,
+    "lat": 76,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6356",
+      "view": "americas",
+      "position": [
+        240,
+        246
+      ],
+      "icon": "/assets/globe/1-6356-60788.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 25,
+    "name": "黄尾绒毛猴",
+    "scientific": "Lagothrix flavicauda",
+    "status": "CR",
+    "region": "南美洲",
+    "ecosystem": "山地云雾林",
+    "threat": "森林砍伐、捕猎",
+    "lon": -77,
+    "lat": -7,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6368",
+      "view": "americas",
+      "position": [
+        215,
+        494
+      ],
+      "icon": "/assets/globe/1-6368-28b93.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 26,
+    "name": "亚马孙河豚",
+    "scientific": "Inia geoffrensis",
+    "status": "EN",
+    "region": "南美洲",
+    "ecosystem": "淡水河流",
+    "threat": "误捕、水坝、水污染",
+    "lon": -63,
+    "lat": -3,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6371",
+      "view": "americas",
+      "position": [
+        253,
+        465
+      ],
+      "icon": "/assets/globe/1-6371-efede.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 27,
+    "name": "加拉帕戈斯企鹅",
+    "scientific": "Spheniscus mendiculus",
+    "status": "EN",
+    "region": "南美洲",
+    "ecosystem": "海岛与近岸",
+    "threat": "厄尔尼诺、食物减少、外来物种",
+    "lon": -91,
+    "lat": -0.7,
+    "design": null
+  },
+  {
+    "id": 28,
+    "name": "大水獭",
+    "scientific": "Pteronura brasiliensis",
+    "status": "EN",
+    "region": "南美洲",
+    "ecosystem": "河流与湿地",
+    "threat": "湿地退化、捕猎、污染",
+    "lon": -59,
+    "lat": -12,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6375",
+      "view": "americas",
+      "position": [
+        272,
+        501
+      ],
+      "icon": "/assets/globe/1-6375-6ba09.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 29,
+    "name": "海鬣蜥",
+    "scientific": "Amblyrhynchus cristatus",
+    "status": "VU",
+    "region": "南美洲",
+    "ecosystem": "海岛与潮间带",
+    "threat": "气候异常、外来物种、污染",
+    "lon": -90.5,
+    "lat": -1,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6366",
+      "view": "americas",
+      "position": [
+        183,
+        454
+      ],
+      "icon": "/assets/globe/1-6366-e6e83.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 30,
+    "name": "鸮鹦鹉",
+    "scientific": "Strigops habroptilus",
+    "status": "CR",
+    "region": "大洋洲",
+    "ecosystem": "温带森林与海岛",
+    "threat": "外来捕食者、种群过小",
+    "lon": 167,
+    "lat": -46,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8338",
+      "view": "asia",
+      "position": [
+        323,
+        518
+      ],
+      "icon": "/assets/globe/1-8338-e93a2.png",
+      "emptyInFigma": false,
+      "floatingInFigma": true
+    }
+  },
+  {
+    "id": 31,
+    "name": "北方毛鼻袋熊",
+    "scientific": "Lasiorhinus krefftii",
+    "status": "CR",
+    "region": "大洋洲",
+    "ecosystem": "草地与疏林",
+    "threat": "种群过小、干旱、栖息地受限",
+    "lon": 150,
+    "lat": -25,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8346",
+      "view": "asia",
+      "position": [
+        311,
+        481
+      ],
+      "icon": "/assets/globe/1-8346-51d36.png",
+      "emptyInFigma": false,
+      "floatingInFigma": true
+    }
+  },
+  {
+    "id": 32,
+    "name": "橙腹鹦鹉",
+    "scientific": "Neophema chrysogaster",
+    "status": "CR",
+    "region": "大洋洲",
+    "ecosystem": "海岸湿地与草地",
+    "threat": "栖息地减少、种群过小",
+    "lon": 145,
+    "lat": -42,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8333",
+      "view": "asia",
+      "position": [
+        257,
+        514
+      ],
+      "icon": "/assets/globe/1-8333-f9ca2.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 33,
+    "name": "考拉",
+    "scientific": "Phascolarctos cinereus",
+    "status": "VU",
+    "region": "大洋洲",
+    "ecosystem": "桉树林",
+    "threat": "森林火灾、栖息地丧失、疾病",
+    "lon": 151,
+    "lat": -28,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8341",
+      "view": "asia",
+      "position": [
+        288,
+        504
+      ],
+      "icon": "/assets/globe/1-8341-174db.png",
+      "emptyInFigma": false,
+      "floatingInFigma": true
+    }
+  },
+  {
+    "id": 34,
+    "name": "袋獾",
+    "scientific": "Sarcophilus harrisii",
+    "status": "EN",
+    "region": "大洋洲",
+    "ecosystem": "森林与灌丛",
+    "threat": "传染性面部肿瘤、道路致死",
+    "lon": 147,
+    "lat": -42,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8330",
+      "view": "asia",
+      "position": [
+        275,
+        542
+      ],
+      "icon": "/assets/globe/1-8330-5aa0d.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 35,
+    "name": "南跳岩企鹅",
+    "scientific": "Eudyptes chrysocome",
+    "status": "VU",
+    "region": "南部海岛",
+    "ecosystem": "亚南极海岛与海洋",
+    "threat": "食物变化、气候变化、污染",
+    "lon": 159,
+    "lat": -54,
+    "design": null
+  },
+  {
+    "id": 36,
+    "name": "玳瑁",
+    "scientific": "Eretmochelys imbricata",
+    "status": "CR",
+    "region": "全球海洋",
+    "ecosystem": "热带珊瑚礁",
+    "threat": "龟甲贸易、误捕、珊瑚礁退化",
+    "lon": 80,
+    "lat": 8,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8318",
+      "view": "asia",
+      "position": [
+        105,
+        390
+      ],
+      "icon": "/assets/globe/1-8318-939c3.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 37,
+    "name": "蓝鲸",
+    "scientific": "Balaenoptera musculus",
+    "status": "EN",
+    "region": "全球海洋",
+    "ecosystem": "远洋",
+    "threat": "船只碰撞、渔具缠绕、海洋噪声",
+    "lon": -25,
+    "lat": -40,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:6374",
+      "view": "americas",
+      "position": [
+        275,
+        550
+      ],
+      "icon": "/assets/globe/1-6374-baa32.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 38,
+    "name": "鲸鲨",
+    "scientific": "Rhincodon typus",
+    "status": "EN",
+    "region": "全球海洋",
+    "ecosystem": "热带与暖温带海洋",
+    "threat": "捕捞、误捕、船只碰撞",
+    "lon": 60,
+    "lat": -12,
+    "design": null
+  },
+  {
+    "id": 39,
+    "name": "苏眉鱼",
+    "scientific": "Cheilinus undulatus",
+    "status": "EN",
+    "region": "全球海洋",
+    "ecosystem": "印度洋—太平洋珊瑚礁",
+    "threat": "过度捕捞、活鱼贸易",
+    "lon": 135,
+    "lat": -3,
+    "design": {
+      "fileKey": "c19dGrM1HqpIPqOMB9x4tt",
+      "nodeId": "1:8327",
+      "view": "asia",
+      "position": [
+        272,
+        429
+      ],
+      "icon": "/assets/globe/1-8327-6ff2b.png",
+      "emptyInFigma": false,
+      "floatingInFigma": false
+    }
+  },
+  {
+    "id": 40,
+    "name": "棱皮龟",
+    "scientific": "Dermochelys coriacea",
+    "status": "VU",
+    "region": "全球海洋",
+    "ecosystem": "远洋与沙滩",
+    "threat": "渔具缠绕、塑料污染、气候变化",
+    "lon": -40,
+    "lat": 10,
+    "design": null
+  }
+]

@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="368.086" height="368.086" viewBox="0 0 368.086 368.086" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Globe-Base">
+<path id="Globe-Surface" d="M184.043 367.086C285.135 367.086 367.086 285.135 367.086 184.043C367.086 82.9512 285.135 1 184.043 1C82.9512 1 1 82.9512 1 184.043C1 285.135 82.9512 367.086 184.043 367.086Z" fill="url(#paint0_radial_0_4)" stroke="url(#paint1_linear_0_4)" stroke-width="2"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_4" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(129.13 92.5216) scale(292.869)">
+<stop stop-color="#F8FFFF"/>
+<stop offset="0.5" stop-color="#D9F4F4"/>
+<stop offset="0.82" stop-color="#C4E8F4"/>
+<stop offset="1" stop-color="#AFC8EA"/>
+</radialGradient>
+<linearGradient id="paint1_linear_0_4" x1="1" y1="1" x2="367.086" y2="367.086" gradientUnits="userSpaceOnUse">
+<stop stop-color="#BCEFE6"/>
+<stop offset="0.55" stop-color="#A9D6EB"/>
+<stop offset="1" stop-color="#9FAEEA"/>
+</linearGradient>
+</defs>
+</svg>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#F2F0FA">
+  <meta name="description" content="AniKind，珍藏属于你们的真实记忆，温柔地探索共同的世界。">
+  <title>AniKind · 让爱有迹可循</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/paw.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/globe.css">
+  <script defer src="/vendor/d3-array.min.js"></script>
+  <script defer src="/vendor/d3-geo.min.js"></script>
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div id="offline" class="offline" hidden role="status">当前已离线。已加载内容仍可阅读，输入会保留为草稿；联网后再保存。</div>
+  <header class="site-header">
+    <a href="#memorial" class="brand" aria-label="AniKind 纪念首页"><img src="/assets/paw.svg" width="30" height="30" alt=""><span>AniKind<span class="brand-dot">.</span></span></a>
+    <span class="brand-caption">让每一份爱，都有迹可循</span>
+    <button id="account-button" class="account-button" data-action="account">登录 / 注册 <span aria-hidden="true">↗</span></button>
+  </header>
+  <main id="main" tabindex="-1"><div class="loading-state" role="status"><span class="spinner"></span>正在打开你的世界…</div></main>
+  <nav class="bottom-nav" aria-label="主导航">
+    <a href="#memorial" data-route="memorial"><img src="/assets/home.svg" alt="" width="24" height="24"><span>纪念</span></a>
+    <a href="#explore" data-route="explore"><img src="/assets/pin.svg" alt="" width="24" height="24"><span>探索</span></a>
+    <a href="#settings" data-route="settings"><img src="/assets/paw.svg" alt="" width="24" height="24"><span>我的</span></a>
+  </nav>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog>
+</body>
+</html>

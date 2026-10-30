@@ -1,0 +1,49 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>AniKind pet and wildlife logo</title>
+  <desc>An editable app logo combining a paw print, a heart-shaped central pad, and a leaf-shaped toe.</desc>
+  <defs>
+    <linearGradient id="brandGradient" x1="232" y1="244" x2="806" y2="792" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8B3DFF"/>
+      <stop offset="0.52" stop-color="#6D5CFF"/>
+      <stop offset="1" stop-color="#26D8E8"/>
+    </linearGradient>
+    <linearGradient id="leafGradient" x1="676" y1="283" x2="788" y2="421" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#25D6E8"/>
+      <stop offset="1" stop-color="#5A76FF"/>
+    </linearGradient>
+    <radialGradient id="softGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 525) rotate(90) scale(394)">
+      <stop stop-color="#8B3DFF" stop-opacity="0.16"/>
+      <stop offset="0.62" stop-color="#5A76FF" stop-opacity="0.07"/>
+      <stop offset="1" stop-color="#26D8E8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="cardShadow" x="55" y="71" width="914" height="922" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="30" stdDeviation="28" flood-color="#26135E" flood-opacity="0.10"/>
+    </filter>
+    <filter id="markShadow" x="169" y="151" width="698" height="726" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#6847E8" flood-opacity="0.20"/>
+    </filter>
+  </defs>
+
+  <g id="App Icon Background" filter="url(#cardShadow)">
+    <rect x="96" y="96" width="832" height="832" rx="216" fill="#FCFBFF"/>
+    <rect x="97" y="97" width="830" height="830" rx="215" stroke="#EDE9F7" stroke-width="2"/>
+  </g>
+
+  <circle id="Soft Brand Glow" cx="512" cy="525" r="394" fill="url(#softGlow)"/>
+
+  <g id="Paw Heart Mark" filter="url(#markShadow)">
+    <ellipse id="Left Toe" cx="292" cy="336" rx="71" ry="91" transform="rotate(-28 292 336)" fill="url(#brandGradient)"/>
+    <ellipse id="Center Left Toe" cx="430" cy="264" rx="68" ry="91" transform="rotate(-8 430 264)" fill="url(#brandGradient)"/>
+    <ellipse id="Center Right Toe" cx="581" cy="271" rx="68" ry="91" transform="rotate(10 581 271)" fill="url(#brandGradient)"/>
+
+    <g id="Leaf Toe">
+      <path d="M697 295C764 241 837 271 820 348C806 412 741 449 670 419C668 372 676 326 697 295Z" fill="url(#leafGradient)"/>
+      <path d="M697 410C722 370 753 339 793 312" stroke="white" stroke-width="14" stroke-linecap="round"/>
+      <path d="M737 359C734 340 736 324 742 307" stroke="white" stroke-width="10" stroke-linecap="round" opacity="0.82"/>
+    </g>
+
+    <path id="Heart Pad" d="M512 831C470 793 289 671 289 517C289 417 365 356 456 356C482 356 500 365 512 384C524 365 542 356 568 356C659 356 735 417 735 517C735 671 554 793 512 831Z" fill="url(#brandGradient)"/>
+
+    <path id="Heart Highlight" d="M375 516C375 467 410 438 453 438" stroke="white" stroke-width="18" stroke-linecap="round" opacity="0.34"/>
+  </g>
+</svg>

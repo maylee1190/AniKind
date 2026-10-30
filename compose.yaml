@@ -1,0 +1,39 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    init: true
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 4173
+      DATA_DIR: /app/data
+      AI_MODE: disabled
+      DEMO_CONTENT: 'false'
+    volumes:
+      - anikind_data:/app/data
+    expose:
+      - '4173'
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+  web:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:?Set DOMAIN to the domain you own}
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+volumes:
+  anikind_data:
+  caddy_data:
+  caddy_config:

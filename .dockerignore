@@ -1,0 +1,12 @@
+data
+.env
+.env.*
+node_modules
+tests
+docs
+scripts/*
+!scripts/role.mjs
+deploy/.env
+.git
+output
+*.log
