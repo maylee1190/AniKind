@@ -1,17 +1,18 @@
+import {t,tr} from './i18n.js';
 import {PRESETS,clamp,wrapLon,viewPoint,designAnchor,moveCamera,zoomCamera} from './globe-math.js';
 let geography;
 const COLORS={CR:'#8237f5',EN:'#4f86f7',VU:'#32cbd4'};
 const SUMMARY_ORDER={africa:[9,13,19,16,12],americas:[37,28,24,25,26],asia:[36,5,33,31,7]};
-const json=async url=>{const r=await fetch(url);if(!r.ok)throw new Error('地图资料读取失败');return r.json();};
+const json=async url=>{const r=await fetch(url);if(!r.ok)throw new Error(t('地图资料读取失败'));return r.json();};
 function imageAsset(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src;});}
 function nearestView(lon){return Object.entries(PRESETS).sort((a,b)=>Math.abs(wrapLon(lon-a[1].lon))-Math.abs(wrapLon(lon-b[1].lon)))[0][0];}
 export async function mountGlobe(canvas,items,{region='',camera:initial,onSelect=()=>{},onChange=()=>{}}={}){
   if(!canvas)return()=>{};
   const panel=canvas.closest('.globe-panel'),viewport=canvas.parentElement,ctx=canvas.getContext('2d');
-  if(!ctx)throw new Error('当前设备无法绘制地球');
+  if(!ctx)throw new Error(t('当前设备无法绘制地球'));
   const [land,countries,dotData,sea]=await (geography||=Promise.all([json('/assets/world-land-50m.geojson'),json('/assets/world.geojson'),json('/assets/land-dots.json'),imageAsset('/assets/globe/1-6394-2485a.svg')]).catch(e=>{geography=null;throw e;}));
   if(!canvas.isConnected)return()=>{};
-  const d3=window.d3;if(!d3?.geoOrthographic)throw new Error('地图投影模块未加载');
+  const d3=window.d3;if(!d3?.geoOrthographic)throw new Error(t('地图投影模块未加载'));
   let start=region==='亚洲'||region==='大洋洲'?'asia':region==='美洲'||region.endsWith('美洲')?'americas':'africa';
   let camera={...PRESETS[start],zoom:1,...initial},targetZoom=camera.zoom;
   let disposed=false,frame=0,dirty=true,previous=0,auto=false,velocity=[0,0],flight=null,selected=null,summaryView=null;
@@ -24,11 +25,11 @@ export async function mountGlobe(canvas,items,{region='',camera:initial,onSelect
   const graticule=d3.geoGraticule().step([30,30])();
   const dots=dotData.dots.map(point=>({point,coarse:point[0]%4===0&&point[1]%4===0,medium:point[0]%2===0&&point[1]%2===0}));
   const layer=panel.querySelector('.globe-markers'),zoomLabel=panel.querySelector('.globe-zoom'),title=panel.querySelector('.globe-view-title'),coords=panel.querySelector('.globe-coordinates');
-  const markers=items.filter(s=>s.point&&s.design).map(s=>{
+  const markers=items.filter(s=>s.point&&s.design&&s.iconAsset&&!s.design.emptyInFigma).map(s=>{
     const el=document.createElement('button');el.className='globe-marker';el.hidden=true;
     el.style.setProperty('--risk',COLORS[s.category]||COLORS.VU);
     el.dataset.speciesId=s.id;el.dataset.figmaNode=s.design.nodeId;
-    el.setAttribute('aria-label',s.name+' · '+s.category+' · 查看物种');
+    el.setAttribute('aria-label',s.name+' · '+s.category+t(' · 查看物种'));
     el.title=s.name+' · '+s.category;
     const face=document.createElement('span');face.className='marker-face';
     if(s.iconAsset){const image=document.createElement('img');image.src=s.iconAsset;image.alt='';image.draggable=false;image.width=28;image.height=28;face.append(image);}
@@ -93,14 +94,14 @@ export async function mountGlobe(canvas,items,{region='',camera:initial,onSelect
       }
     }
     const located=items.find(s=>s.id===selected);
-    if(located?.point&&!located.design){
+    if(located?.point&&(!located.design||!located.iconAsset||located.design.emptyInFigma)){
       const[x,y,z]=project(located.point);
       if(z>0){ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle=COLORS[located.category]||COLORS.VU;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();ctx.font='600 12px system-ui';ctx.textAlign='center';ctx.lineWidth=4;ctx.strokeText(located.name,x,y-14);ctx.fillStyle='#40354c';ctx.fillText(located.name,x,y-14);}
     }
     ctx.restore();
     const view=nearestView(camera.lon),preset=PRESETS[view];
     updateSummary(view);
-    title.textContent=Math.abs(camera.lat)>65?(camera.lat>0?'Arctic · 北极':'Antarctica · 南极'):preset.label;
+    title.textContent=Math.abs(camera.lat)>65?(camera.lat>0?t('Arctic · 北极'):t('Antarctica · 南极')):t(preset.name);
     zoomLabel.textContent=Math.round(camera.zoom*100)+'%';
     coords.textContent=Math.abs(camera.lat).toFixed(1)+'°'+(camera.lat>=0?'N':'S')+' / '+Math.abs(camera.lon).toFixed(1)+'°'+(camera.lon>=0?'E':'W');
     panel.querySelectorAll('[data-globe-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.globeView===view)));

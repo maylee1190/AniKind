@@ -6,6 +6,8 @@ import { authentication } from './auth.mjs';
 import { validateMedia, hash, archive, labeledImage } from './media.mjs';
 import { generation, ACTIVE } from './generation.mjs';
 import { seed, SCENES } from './seed.mjs';
+import { puzzleService } from './puzzles.mjs';
+import { SPECIES_EN } from '../public/js/locales/species-en.js';
 
 const MIME = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.geojson':'application/geo+json','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.ico':'image/x-icon','.webmanifest':'application/manifest+json'};
 async function body(req, max = 1024*1024, binary = false) {
@@ -49,7 +51,8 @@ export function createApp(options = {}) {
   const ai=generation(store,config);let closed=false;
   const timers=new Set();
   function later(fn){const timer=setTimeout(()=>{timers.delete(timer);if(!closed)fn();},20);timers.add(timer);}
-  function publicSpecies(){return store.list('species').filter(s=>s.status==='published'||(config.demo&&s.status==='demo'));}
+  function publicSpecies(){return store.list('species').filter(s=>s.status==='published'||(config.demo&&s.status==='demo')).map(s=>({...s,englishName:s.englishName||SPECIES_EN[s.scientificName]||''}));}
+  const puzzles=puzzleService(store,auth,config,publicSpecies);
   function deleteScope(user, petId) {
     const rows=store.db.prepare('SELECT id FROM records WHERE owner_id=?').all(user.id).map(x=>store.get(x.id)).filter(r=>!petId||r.petId===petId||r.id===petId||r.type==='export');
     const providerJobs=rows.filter(r=>r.type==='job'&&!r.isDemo&&r.status!=='queued').map(r=>r.id);
@@ -108,6 +111,10 @@ export function createApp(options = {}) {
         }
         const speciesPath=path.match(/^\/api\/species\/([^/]+)$/);
         if(speciesPath&&method==='GET'){const s=publicSpecies().find(s=>s.id===speciesPath[1]);if(!s)fail(404,'SPECIES_NOT_FOUND','当前资料库未收录');return send(s);}
+        if(path==='/api/puzzles'&&method==='GET')return send(puzzles.list(req,res));
+        const puzzlePath=path.match(/^\/api\/puzzles\/([a-zA-Z0-9-]+)$/);
+        if(puzzlePath&&method==='GET')return send(puzzles.get(req,res,puzzlePath[1]));
+        if(puzzlePath&&method==='POST')return send(puzzles.update(req,res,puzzlePath[1],await body(req)));
         const user=auth.require(req);
         if(path==='/api/settings'&&method==='PATCH'){
           const data=await body(req),next={...user};

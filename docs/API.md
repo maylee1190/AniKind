@@ -75,6 +75,16 @@
 
 所有审核动作携带 version。Source URL 仅允许 HTTPS。首次或后续发布均需来源、许可、地区、评估体系、日期和版本。附加地域评估用 `assessments` 数组，不覆盖主评估。
 
+## 拼图知识卡
+
+| 方法与路径 | 行为 |
+| --- | --- |
+| GET `/puzzles` | 公开挑战目录与当前身份的完成概况，无卡片正文 |
+| GET `/puzzles/:id` | 挑战、保存的排列、进度；解锁后才返回 `cards` |
+| POST `/puzzles/:id` | `action:start` 幂等创建 / 继续；`swap` 带 `from,to,version`；`hint` / `restart` 带 `version` |
+
+访客也可使用。首次开始分配 HttpOnly 访客 Cookie；已登录时使用账号身份。进度互相隔离，服务端校验排列并解锁。重开保留解锁时间；旧版本返回 409。`progress` 含 `board,moves,hints,version,correct,completed,unlockedAt,updatedAt`；`cards` 未解锁时为空数组。无进度时 GET 返回 `progress:null`。
+
 ## 错误响应
 
 ```json

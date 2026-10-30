@@ -9,11 +9,14 @@
   <link rel="icon" type="image/svg+xml" href="/assets/paw.svg">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/globe.css">
+  <link rel="stylesheet" href="/puzzle.css">
+  <link rel="stylesheet" href="/language.css">
   <script defer src="/vendor/d3-array.min.js"></script>
   <script defer src="/vendor/d3-geo.min.js"></script>
   <script type="module" src="/js/app.js"></script>
 </head>
 <body>
+  <div class="language-bar"><div class="language-switch" role="group" aria-label="Language / 语言"><button type="button" data-language="zh-CN" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">English</button></div></div>
   <a class="skip-link" href="#main">跳到主要内容</a>
   <div id="offline" class="offline" hidden role="status">当前已离线。已加载内容仍可阅读，输入会保留为草稿；联网后再保存。</div>
   <header class="site-header">

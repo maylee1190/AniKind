@@ -21,3 +21,7 @@
 新地球的 PNG/SVG 均下载自 [Figma 濒危动物地球](https://www.figma.com/design/c19dGrM1HqpIPqOMB9x4tt/Untitled?node-id=0-1)，原始导出 URL、节点与本地文件记录在 `figma-globe-assets.json`。底图、图标与脚本全部从本站加载，不依赖远程 Figma 资源有效期。未下载 WWF 照片。
 
 `public/vendor` 保存 d3-array 3.2.4、d3-geo 3.1.1 及各自 LICENSE。来源与映射细节见 [地球实现记录](GLOBE_IMPLEMENTATION.md)。
+
+`public/assets/puzzle` 保存 Figma `UocyNNHftoeYl1Q6DxGmez` 的 289:428 / 289:554 节点原始 PNG / SVG，清单见 `figma-puzzle-assets.json`。当前沿用原始 SVG 拼块轮廓作为 CSS 遮罩、知识卡布局及配色。按用户 2026-09-25 要求，拼图、参考图、收藏封面和知识卡图片全部改为真实照片，未改动地球图标。
+
+`public/assets/wildlife-photos` 包含 31 张当前地球动物实拍 JPEG 及 1 张已取消关卡的历史三角龙骨架照片，元数据见 `server/wildlife-photos.json`，逐图许可与来源见 [WILDLIFE_PHOTOS.md](WILDLIFE_PHOTOS.md)。当前拼图仅使用地球上的动物照片。照片来自 Wikimedia Commons 摄影者及昆士兰政府，保留摄影署名、原始来源和许可链接；未使用生成图片、卡通头像或相似物种替代。页面仅按比例缩放和拼块遮罩展示，摄影作品继续适用各自许可（包括 CC BY-SA 的相同方式共享要求）。
