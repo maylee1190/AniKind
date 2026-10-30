@@ -5,6 +5,11 @@ data/
 node_modules/
 *.log
 *.sqlite*
+*.pid
 test-results/
 output/
 tmp/
+__pycache__/
+*.pyc
+tools/history/runtime/
+tools/history/releases/

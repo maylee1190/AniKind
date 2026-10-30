@@ -1,0 +1,1704 @@
+{
+  "title": "AniKind 前后端迭代图册",
+  "date": "2026-10-29",
+  "groups": [
+    [
+      "A",
+      "后端基础与私人数据"
+    ],
+    [
+      "B",
+      "记忆、创作与用户控制"
+    ],
+    [
+      "C",
+      "内容治理与数据生命周期"
+    ],
+    [
+      "D",
+      "地球、物种与地理信息"
+    ],
+    [
+      "E",
+      "前端页面与跨端交互"
+    ],
+    [
+      "F",
+      "拼图内容与真实照片"
+    ],
+    [
+      "G",
+      "拼图后端与解锁状态"
+    ],
+    [
+      "H",
+      "中英双语与状态保持"
+    ],
+    [
+      "I",
+      "运行恢复、部署与验证"
+    ]
+  ],
+  "cards": [
+    {
+      "id": "A1",
+      "title": "数据持久化与统一接口",
+      "insight": "页面操作需要真正保存，重启后仍可读取。",
+      "kind": "首次全栈实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：可保存的宠物记忆",
+        "尚待实现存储与接口"
+      ],
+      "after": [
+        "Node HTTP 接口",
+        "SQLite + records / blobs"
+      ],
+      "result": "用户、会话、内容版本和素材持久保存。",
+      "refs": [
+        {
+          "file": "server/core.mjs",
+          "line": 26,
+          "symbol": "export function openStore"
+        },
+        {
+          "file": "server/index.mjs",
+          "line": 1,
+          "symbol": "createApp"
+        },
+        {
+          "file": "public/js/api.js",
+          "line": 3,
+          "symbol": "export async function api"
+        }
+      ],
+      "test": "tests/lifecycle.test.mjs:16",
+      "image": null,
+      "oldImage": null,
+      "detail": "SQLite 启用 WAL、外键和事务。records 使用 type、owner_id、pet_id 等索引列及 JSON 负载。单实例实现，未接对象存储或分布式队列。"
+    },
+    {
+      "id": "A2",
+      "title": "账号与会话",
+      "insight": "私人纪念内容需要稳定的登录身份。",
+      "kind": "身份与权限实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：注册 / 登录 / 退出",
+        "尚待实现会话管理"
+      ],
+      "after": [
+        "scrypt 密码哈希",
+        "HttpOnly 会话 + 退出失效"
+      ],
+      "result": "服务端识别当前账号，登录失败有频率限制。",
+      "refs": [
+        {
+          "file": "server/auth.mjs",
+          "line": 6,
+          "symbol": "export async function passwordHash"
+        },
+        {
+          "file": "server/auth.mjs",
+          "line": 31,
+          "symbol": "async signIn"
+        },
+        {
+          "file": "server/auth.mjs",
+          "line": 53,
+          "symbol": "logout(req"
+        }
+      ],
+      "test": "tests/api.test.mjs:138",
+      "image": null,
+      "oldImage": null,
+      "detail": "注册要求成年确认。会话令牌摘要入库，SameSite=Strict，生产环境使用 Secure。邮件验证、短信和密码找回未接入。"
+    },
+    {
+      "id": "A3",
+      "title": "私人资源与授权隔离",
+      "insight": "不同账号、不同宠物的素材不能串用。",
+      "kind": "权限与授权实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：仅本人可见",
+        "素材处理须取得授权"
+      ],
+      "after": [
+        "owned(id, owner, type)",
+        "同源校验 + 授权记录"
+      ],
+      "result": "前后端按身份读取，后台角色也无私人内容访问权。",
+      "refs": [
+        {
+          "file": "server/core.mjs",
+          "line": 58,
+          "symbol": "owned(id"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 98,
+          "symbol": "req.headers['x-anikind']"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 119,
+          "symbol": "path==='/api/settings'"
+        }
+      ],
+      "test": "tests/api.test.mjs:34,47,94",
+      "image": null,
+      "oldImage": null,
+      "detail": "所有变更请求要求 X-AniKind，检查 Origin 与 Host。处理授权、AI 授权和通知偏好分别记录版本与时间。上传流结束再次检查授权和归属。"
+    },
+    {
+      "id": "A4",
+      "title": "宠物档案与日期校验",
+      "insight": "名字、纪念日期和头像需要准确归属于档案。",
+      "kind": "档案功能实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：建立宠物档案",
+        "限制数量与错误日期"
+      ],
+      "after": [
+        "最多 3 个私有档案",
+        "可见字符计数 + 日期顺序"
+      ],
+      "result": "创建、编辑和切换档案，头像只能选当前宠物素材。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 21,
+          "symbol": "function petInput"
+        },
+        {
+          "file": "server/core.mjs",
+          "line": 16,
+          "symbol": "export const count"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 74,
+          "symbol": "async function createPet"
+        }
+      ],
+      "test": "tests/api.test.mjs:39",
+      "image": null,
+      "oldImage": null,
+      "detail": "名称限制 1–30 个可见字符，保留 emoji 组合。日期可空，验证 YYYY-MM-DD 与出生/纪念先后关系。更新携带 version。"
+    },
+    {
+      "id": "A5",
+      "title": "原始素材上传",
+      "insight": "上传应有进度，并识别真实文件格式。",
+      "kind": "媒体前后端实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：照片 / 音视频存档",
+        "上传错误需可识别"
+      ],
+      "after": [
+        "签名检查 + 同宠物去重",
+        "逐文件进度 + 私有媒体读取"
+      ],
+      "result": "支持原件保存、限额和 Range 读取，拒绝伪装文件。",
+      "refs": [
+        {
+          "file": "server/media.mjs",
+          "line": 11,
+          "symbol": "export function sniff"
+        },
+        {
+          "file": "server/media.mjs",
+          "line": 35,
+          "symbol": "export async function validateMedia"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 89,
+          "symbol": "async function uploadFiles"
+        }
+      ],
+      "test": "tests/api.test.mjs:52",
+      "image": null,
+      "oldImage": null,
+      "detail": "图片 20 MB、音频 50 MB、视频 200 MB，账号 2 GB。音视频必须配置 ffprobe 才可验证时长。未实现分片续传。"
+    },
+    {
+      "id": "B1",
+      "title": "真实记忆与相册",
+      "insight": "保存原文，同时支持整理与再次编辑。",
+      "kind": "记忆功能实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：记录真实经历",
+        "检索 / 日期 / 收藏"
+      ],
+      "after": [
+        "幂等创建 + 原文保留",
+        "版本冲突检查 + 相册筛选"
+      ],
+      "result": "文本草稿可在当前会话恢复，未知日期保持待补充。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 180,
+          "symbol": "path==='/api/memories'&&method==='POST'"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 76,
+          "symbol": "function saveMemoryDraft"
+        },
+        {
+          "file": "public/js/views.js",
+          "line": 29,
+          "symbol": "export function album"
+        }
+      ],
+      "test": "tests/api.test.mjs:62,69",
+      "image": null,
+      "oldImage": null,
+      "detail": "记忆有 originalBody 与当前正文。提交幂等键避免重复保存，跨宠物素材引用被拒绝。草稿按账号、宠物与记忆 ID 隔离，退出时清除。"
+    },
+    {
+      "id": "B2",
+      "title": "主动选择生成参考",
+      "insight": "创作只能使用用户明确选择并授权的照片。",
+      "kind": "生成流程实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：形象 / 明信片创作",
+        "需选择素材和用途"
+      ],
+      "after": [
+        "选择 1 / 3 至 10 张照片",
+        "授权 + 主体确认后排队"
+      ],
+      "result": "服务端校验图片格式、尺寸及宠物归属。",
+      "refs": [
+        {
+          "file": "server/generation.mjs",
+          "line": 84,
+          "symbol": "create(user, data, key)"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 83,
+          "symbol": "async function createPostcard"
+        },
+        {
+          "file": "public/js/views.js",
+          "line": 51,
+          "symbol": "export function generationForm"
+        }
+      ],
+      "test": "tests/api.test.mjs:74",
+      "image": null,
+      "oldImage": null,
+      "detail": "明信片至少 1 张，形象至少 3 张，最多 10 张。只接收当前宠物的原始 PNG/JPEG，宽高均至少 256 像素。默认本地模板演示，不是真实 AI 生成。"
+    },
+    {
+      "id": "B3",
+      "title": "任务状态与配额",
+      "insight": "重复点击、取消或重启不能重复扣体验额度。",
+      "kind": "异步可靠性实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：异步任务可追踪",
+        "失败 / 取消应有反馈"
+      ],
+      "after": [
+        "queued / generating / ready",
+        "幂等提交 + 取消仅返额一次"
+      ],
+      "result": "重启后的执行中任务安全失败，迟到结果不发布。",
+      "refs": [
+        {
+          "file": "server/generation.mjs",
+          "line": 16,
+          "symbol": "function cancel"
+        },
+        {
+          "file": "server/generation.mjs",
+          "line": 22,
+          "symbol": "async function execute"
+        },
+        {
+          "file": "server/generation.mjs",
+          "line": 71,
+          "symbol": "for (const job of store.list"
+        }
+      ],
+      "test": "tests/api.test.mjs:88; tests/lifecycle.test.mjs:25",
+      "image": null,
+      "oldImage": null,
+      "detail": "按用户日次数、并发 1 和平台日次数限制。单进程工作器，超时失败返额。没有供应商实际账单核对或金额预算。"
+    },
+    {
+      "id": "B4",
+      "title": "预览确认与创作标识",
+      "insight": "生成结果应由用户确认后进入自己的内容。",
+      "kind": "内容确认实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：可预览与拒绝",
+        "原始记录和创作需区分"
+      ],
+      "after": [
+        "ready 预览保留 7 天",
+        "接受后入相册 / 替换头像"
+      ],
+      "result": "拒绝清理预览，编辑与导出仍保留创作类别。",
+      "refs": [
+        {
+          "file": "server/generation.mjs",
+          "line": 110,
+          "symbol": "decide(user,id,accept)"
+        },
+        {
+          "file": "public/js/views.js",
+          "line": 31,
+          "symbol": "export function jobCard"
+        },
+        {
+          "file": "server/media.mjs",
+          "line": 69,
+          "symbol": "export function labeledImage"
+        }
+      ],
+      "test": "tests/api.test.mjs:74,102",
+      "image": null,
+      "oldImage": null,
+      "detail": "本地演示与真实 AI 输出使用不同标识。接受前不自动替换头像，重复确认不会创建重复记忆。真实供应商仍需联调验收。"
+    },
+    {
+      "id": "B5",
+      "title": "纪念节奏与离线反馈",
+      "insight": "用户应能暂停创作，同时继续阅读既有记录。",
+      "kind": "偏好与状态实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：暂停 / 隐藏创作",
+        "断网时保留已输入文字"
+      ],
+      "after": [
+        "独立偏好与授权开关",
+        "已载入内容 + 会话草稿"
+      ],
+      "result": "撤销授权会取消活动任务，原始存档仍可读。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 119,
+          "symbol": "path==='/api/settings'"
+        },
+        {
+          "file": "public/js/views.js",
+          "line": 42,
+          "symbol": "export function settings"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 220,
+          "symbol": "addEventListener('offline'"
+        }
+      ],
+      "test": "tests/api.test.mjs:94",
+      "image": null,
+      "oldImage": null,
+      "detail": "隐藏 AI、生态推荐、通知偏好分开保存。离线仅覆盖已经载入的内容和当前会话文字，未实现 Service Worker 冷启动与离线合并。"
+    },
+    {
+      "id": "C1",
+      "title": "物种来源与未知数据",
+      "insight": "科普页面不能用网页日期代替正式评估日期。",
+      "kind": "内容模型实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：等级、来源、地区",
+        "缺失资料应如实显示"
+      ],
+      "after": [
+        "来源 / 许可 / 评估体系",
+        "未知日期与种群数保留空值"
+      ],
+      "result": "历史表明确标为待复核，代表坐标不冒充完整分布。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 28,
+          "symbol": "function speciesInput"
+        },
+        {
+          "file": "server/seed.mjs",
+          "line": 28,
+          "symbol": "sourceReadAt:null"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 101,
+          "symbol": "async function showSpecies"
+        }
+      ],
+      "test": "tests/api.test.mjs:109",
+      "image": null,
+      "oldImage": null,
+      "detail": "当前 40 条历史名录未完成逐条科学复核。生产模式不把 demo 记录作为审核后资料发布。附加地域评估以 assessments 数组保存。"
+    },
+    {
+      "id": "C2",
+      "title": "编辑与审核分权",
+      "insight": "内容发布需要证据完整，并经过另一位审核者。",
+      "kind": "内容后台实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：建立内容工作台",
+        "草稿与公开资料分开"
+      ],
+      "after": [
+        "编辑提交 pending",
+        "异人审核后 published"
+      ],
+      "result": "禁止自审，来源、许可、日期等缺失时不能发布。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 222,
+          "symbol": "if(path.startsWith('/api/admin/'))"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 244,
+          "symbol": "if(action==='publish')"
+        },
+        {
+          "file": "scripts/role.mjs",
+          "line": 2,
+          "symbol": "role"
+        }
+      ],
+      "test": "tests/api.test.mjs:109",
+      "image": null,
+      "oldImage": null,
+      "detail": "角色只能通过本机 CLI 配置。editor、reviewer、admin 权限分开，管理员也不得发布自己编辑的资料。"
+    },
+    {
+      "id": "C3",
+      "title": "纠错、下架与版本恢复",
+      "insight": "发现错误后，应能处理并追溯内容变化。",
+      "kind": "内容治理实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：用户报告资料问题",
+        "运营保留修改依据"
+      ],
+      "after": [
+        "纠错队列 + audit",
+        "下架后恢复为草稿"
+      ],
+      "result": "恢复历史内容仍需重新审核，不直接重新公开。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 221,
+          "symbol": "path==='/api/reports'"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 227,
+          "symbol": "historyPath=path.match"
+        },
+        {
+          "file": "server/core.mjs",
+          "line": 60,
+          "symbol": "audit(actor"
+        }
+      ],
+      "test": "tests/api.test.mjs:109",
+      "image": null,
+      "oldImage": null,
+      "detail": "变更保存版本快照、操作者与原因。公共接口只提供已发布资料或开发示例，下架立即停止提供，对应拼图也不可访问。"
+    },
+    {
+      "id": "C4",
+      "title": "完整导出与下载期限",
+      "insight": "用户需要带走原件、文字和来源信息。",
+      "kind": "数据导出实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：导出本人资料",
+        "创作标识不可遗漏"
+      ],
+      "after": [
+        "密码复核 + 后台归档",
+        "原件 / JSON / 24h 下载"
+      ],
+      "result": "仅本人可下载，过期后清除导出字节。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 200,
+          "symbol": "path==='/api/exports'&&method==='POST'"
+        },
+        {
+          "file": "server/media.mjs",
+          "line": 55,
+          "symbol": "export function archive"
+        },
+        {
+          "file": "public/js/views.js",
+          "line": 47,
+          "symbol": "export function exportRows"
+        }
+      ],
+      "test": "tests/api.test.mjs:102",
+      "image": null,
+      "oldImage": null,
+      "detail": "归档格式为 tar.gz，素材用安全 ID 命名，中文原名留在 manifest。生成图带可见说明。当前内存构建大包，尚需生产流式改造。"
+    },
+    {
+      "id": "C5",
+      "title": "级联删除与撤回",
+      "insight": "删除原件后，衍生内容和旧导出不能继续暴露它。",
+      "kind": "数据生命周期实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：删除素材 / 档案 / 账户",
+        "本地与供应商状态需分开"
+      ],
+      "after": [
+        "原件、引用、任务级联清理",
+        "外部删除确认前保持 pending"
+      ],
+      "result": "账户删除撤销会话，备份未配置状态如实显示。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 56,
+          "symbol": "function deleteScope"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 67,
+          "symbol": "async function retryProviderDeletions"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 159,
+          "symbol": "const affectedIds=new Set"
+        }
+      ],
+      "test": "tests/api.test.mjs:128,134",
+      "image": null,
+      "oldImage": null,
+      "detail": "删除参考素材会清理关联生成素材、创作记忆、头像引用及导出快照。供应商须返回 200/204 才确认完成，失败重试。未宣称已清除未配置的备份。"
+    },
+    {
+      "id": "D1",
+      "title": "真实世界地图投影",
+      "insight": "地球旋转时，海岸线与大陆位置仍需准确。",
+      "kind": "地理绘制迭代",
+      "evidence": "实现记录",
+      "before": [
+        "早期：地区示意地图",
+        "不足以表达完整球面交互"
+      ],
+      "after": [
+        "Natural Earth 1:50m 陆地",
+        "正射投影 + 半球裁切"
+      ],
+      "result": "支持两极和日期变更线，陆地点阵排除海洋与内湖。",
+      "refs": [
+        {
+          "file": "public/js/globe.js",
+          "line": 13,
+          "symbol": "const [land,countries"
+        },
+        {
+          "file": "public/js/globe-math.js",
+          "line": 5,
+          "symbol": "export function viewPoint"
+        },
+        {
+          "file": "scripts/prepare-globe-data.mjs",
+          "line": 2,
+          "symbol": "pointInPolygon"
+        }
+      ],
+      "test": "tests/globe.test.mjs:9,21,39",
+      "image": "globe-zh.jpg",
+      "oldImage": null,
+      "detail": "09/16 VALIDATION 记录为地区示意，09/17 GLOBE_IMPLEMENTATION 记录球面重做。陆地 1:50m，国界 1:110m。21,224 个采样点是视觉纹理，非种群密度。"
+    },
+    {
+      "id": "D2",
+      "title": "原稿图标与 40 种绑定",
+      "insight": "动物图标、物种与设计位置应对应同一记录。",
+      "kind": "资源与数据迭代",
+      "evidence": "实现记录",
+      "before": [
+        "初始：3 条编辑示例",
+        "原稿包含通用图层名"
+      ],
+      "after": [
+        "历史名录 40 条 + 33 设计绑定",
+        "图标锚点与代表经纬度分开"
+      ],
+      "result": "使用本地 Figma 原始资源，保留节点和资产溯源。",
+      "refs": [
+        {
+          "file": "server/globe-species.json",
+          "line": 3,
+          "symbol": "\"id\": 1"
+        },
+        {
+          "file": "server/seed.mjs",
+          "line": 23,
+          "symbol": "for(const s of globeSpecies)"
+        },
+        {
+          "file": "public/js/globe-math.js",
+          "line": 16,
+          "symbol": "export function designAnchor"
+        }
+      ],
+      "test": "tests/globe.test.mjs:29",
+      "image": null,
+      "oldImage": null,
+      "detail": "Cat、Raccoon、Pufferfish 等图层与具体物种的映射依据历史表和位置推定，正式发布前仍需核对。点位只代表地区中心。"
+    },
+    {
+      "id": "D3",
+      "title": "旋转、惯性与多方式缩放",
+      "insight": "结合视频实现鼠标、触摸和键盘操作。",
+      "kind": "交互动态迭代",
+      "evidence": "实现记录",
+      "before": [
+        "参考：视频中的旋转缩放",
+        "需要转成真实交互状态"
+      ],
+      "after": [
+        "拖动 / 惯性 / 自动旋转",
+        "滚轮 / 双指 / 按钮 / 键盘"
+      ],
+      "result": "缩放 72%–400%，支持三地区切换、复位和极地。",
+      "refs": [
+        {
+          "file": "public/js/globe.js",
+          "line": 150,
+          "symbol": "viewport.addEventListener('pointerdown'"
+        },
+        {
+          "file": "public/js/globe.js",
+          "line": 178,
+          "symbol": "viewport.addEventListener('wheel'"
+        },
+        {
+          "file": "public/js/globe-math.js",
+          "line": 23,
+          "symbol": "export function zoomCamera"
+        }
+      ],
+      "test": "tests/globe.test.mjs:34",
+      "image": null,
+      "oldImage": null,
+      "detail": "经度归一化，纬度限制 ±89.9°。实际双指触屏设备未验收。后续空圈清理与双语修改没有改动 globe-math.js。"
+    },
+    {
+      "id": "D4",
+      "title": "去掉空圆圈",
+      "insight": "用户要求移除没有动物的圆圈，保留原有动态。",
+      "kind": "可核验源码修改",
+      "evidence": "源码差异",
+      "before": [
+        "s.point && s.design",
+        "33 个设计绑定全部生成标记"
+      ],
+      "after": [
+        "再检查 iconAsset 与 !emptyInFigma",
+        "仅生成 31 个动物标记"
+      ],
+      "result": "移除 2 个空圈及光晕，仍可通过列表定位相关物种。",
+      "refs": [
+        {
+          "file": "public/js/globe.js",
+          "line": 28,
+          "symbol": "const markers=items.filter"
+        },
+        {
+          "file": "public/js/globe.js",
+          "line": 97,
+          "symbol": "if(located?.point&&"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:101",
+      "image": null,
+      "oldImage": null,
+      "detail": "09/17 部署包与当前代码有直接差异。保留原 33 条设计绑定用于溯源，未从 40 条目录删物种，旋转和缩放函数不变。"
+    },
+    {
+      "id": "D5",
+      "title": "筛选、计数与定位",
+      "insight": "地图上的标记和列表检索需要采用清楚的口径。",
+      "kind": "信息架构实现",
+      "evidence": "实现记录",
+      "before": [
+        "设计示意数量 / 地区分组",
+        "不能等同于实际收录总数"
+      ],
+      "after": [
+        "实际收录 40 条，同步筛选",
+        "名称 / 学名 / 地区 / 等级"
+      ],
+      "result": "无原稿图标的物种也能从列表定位到代表坐标。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 106,
+          "symbol": "path==='/api/species'&&method==='GET'"
+        },
+        {
+          "file": "public/js/views.js",
+          "line": 33,
+          "symbol": "export function speciesList"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 134,
+          "symbol": "'locate-species'"
+        }
+      ],
+      "test": "tests/api.test.mjs:25",
+      "image": null,
+      "oldImage": null,
+      "detail": "33 设计绑定、31 动物标记、40 资料记录是不同口径。设计画板分组不等于科学地区分类。正式总量来自 API，不沿用 Figma 的示意数 1,204。"
+    },
+    {
+      "id": "E1",
+      "title": "设计规范落地到组件",
+      "insight": "需要将 PRD 和视觉规范变成可操作的页面。",
+      "kind": "首次前端实现",
+      "evidence": "需求基线",
+      "before": [
+        "PRD / Figma 页面规范",
+        "待实现真实文字和操作"
+      ],
+      "after": [
+        "纪念 / 探索 / 我的主导航",
+        "语义色彩 + 表单 / 弹窗 / 卡片"
+      ],
+      "result": "原始宠物与场景资源落地，页面和接口实际联动。",
+      "refs": [
+        {
+          "file": "public/index.html",
+          "line": 28,
+          "symbol": "bottom-nav"
+        },
+        {
+          "file": "public/styles.css",
+          "line": 2,
+          "symbol": ":root"
+        },
+        {
+          "file": "public/js/views.js",
+          "line": 16,
+          "symbol": "export function memorial"
+        }
+      ],
+      "test": "docs/VALIDATION.md",
+      "image": "memorial-mobile.jpg",
+      "oldImage": null,
+      "detail": "原生 ES Modules 与 CSS 实现。底色、操作色、文字层级与稳定内容承载面参考本地设计规范，未打包授权未知字体。"
+    },
+    {
+      "id": "E2",
+      "title": "手机与电脑布局",
+      "insight": "同一网站需要在窄屏和大屏都可使用。",
+      "kind": "跨端布局实现",
+      "evidence": "实现记录",
+      "before": [
+        "Figma 以 402px 手机稿为主",
+        "桌面需要扩展浏览空间"
+      ],
+      "after": [
+        "手机：地球 + 可展开列表",
+        "电脑：地球与列表双栏"
+      ],
+      "result": "拼图在手机上下排布，在电脑并列显示知识卡。",
+      "refs": [
+        {
+          "file": "public/globe.css",
+          "line": 82,
+          "symbol": "@media(max-width:999px)"
+        },
+        {
+          "file": "public/puzzle.css",
+          "line": 9,
+          "symbol": "@media(max-width:699px)"
+        },
+        {
+          "file": "public/puzzle.css",
+          "line": 10,
+          "symbol": "@media(max-width:379px)"
+        }
+      ],
+      "test": "docs/GLOBE_IMPLEMENTATION.md; docs/PUZZLE_IMPLEMENTATION.md",
+      "image": "globe-mobile.jpg",
+      "oldImage": null,
+      "detail": "已模拟 320、402、840、1280 像素宽度。Before/After 此处为原稿适配目标与实现结果，不表示旧桌面网站完全不可用。浏览器模拟不代替 iOS/Android 真机验收。"
+    },
+    {
+      "id": "E3",
+      "title": "键盘、焦点与可读反馈",
+      "insight": "地球与拼图不能只能靠鼠标拖动操作。",
+      "kind": "可访问性实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：等价键盘入口",
+        "可感知的操作状态"
+      ],
+      "after": [
+        "方向键 / Enter / Home",
+        "模态焦点 + aria-live 反馈"
+      ],
+      "result": "提供文字列表、触控按钮及清楚的选择状态。",
+      "refs": [
+        {
+          "file": "public/js/globe.js",
+          "line": 180,
+          "symbol": "canvas.addEventListener('keydown'"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 80,
+          "symbol": "board.addEventListener('keydown'"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 26,
+          "symbol": "function modal"
+        }
+      ],
+      "test": "docs/VALIDATION.md",
+      "image": null,
+      "oldImage": null,
+      "detail": "地球加减键控制缩放；拼图 Tab/方向键定位，Enter/Space 选择，Escape 取消。未声称完成全部读屏验收或达到 WCAG 2.2 AA。"
+    },
+    {
+      "id": "E4",
+      "title": "运动暂停与标记层级",
+      "insight": "放大后的动物标记曾遮住工具栏。",
+      "kind": "交互缺陷修复",
+      "evidence": "实现记录",
+      "before": [
+        "记录：放大标记遮挡控件",
+        "切页后需回收动画监听"
+      ],
+      "after": [
+        "视口裁切 + 图层隔离",
+        "离屏暂停 + destroy 清理"
+      ],
+      "result": "工具栏保持可操作，减弱动效时关闭惯性与自动转动。",
+      "refs": [
+        {
+          "file": "public/globe.css",
+          "line": 24,
+          "symbol": ".globe-viewport"
+        },
+        {
+          "file": "public/js/globe.js",
+          "line": 112,
+          "symbol": "function tick"
+        },
+        {
+          "file": "public/js/globe.js",
+          "line": 188,
+          "symbol": "const destroy="
+        }
+      ],
+      "test": "docs/GLOBE_IMPLEMENTATION.md",
+      "image": null,
+      "oldImage": null,
+      "detail": "09/17 文档记载遮挡修复与复测。后台页、离屏、模态打开期间停止运动。窗口变化重新计算 Canvas。找不到修复前截图，因此采用流程示意。"
+    },
+    {
+      "id": "E5",
+      "title": "加载、错误与重试",
+      "insight": "断网、快速切页或接口失败需要明确反馈。",
+      "kind": "状态与可靠性实现",
+      "evidence": "需求基线",
+      "before": [
+        "需求：失败不能只留白",
+        "快速切页避免旧结果覆盖"
+      ],
+      "after": [
+        "loading / empty / error / retry",
+        "routeVersion 与请求版本判断"
+      ],
+      "result": "地球失败仍保留列表入口，表单错误给出可读提示。",
+      "refs": [
+        {
+          "file": "public/js/app.js",
+          "line": 51,
+          "symbol": "async function renderRoute"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 50,
+          "symbol": "async function mountMap"
+        },
+        {
+          "file": "public/js/api.js",
+          "line": 3,
+          "symbol": "export async function api"
+        }
+      ],
+      "test": "docs/VALIDATION.md",
+      "image": null,
+      "oldImage": null,
+      "detail": "入口启动加载 config/session，错误响应有 code、traceId 和 retryable。401 清理私有前端状态并要求登录。文字草稿保留已有输入。"
+    },
+    {
+      "id": "F1",
+      "title": "新增拼图与知识卡入口",
+      "insight": "用户要求加入设计稿中的拼图解锁内容。",
+      "kind": "新增前后端功能",
+      "evidence": "源码差异",
+      "before": [
+        "09/17：没有 #puzzles 路由",
+        "探索页只有物种浏览"
+      ],
+      "after": [
+        "探索与物种详情进入拼图",
+        "完成后阅读 3 张知识卡"
+      ],
+      "result": "新增目录、关卡页面和 /api/puzzles 接口。",
+      "refs": [
+        {
+          "file": "public/js/app.js",
+          "line": 63,
+          "symbol": "S.route==='puzzles'"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 6,
+          "symbol": "export function puzzleEntry"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 114,
+          "symbol": "path==='/api/puzzles'"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:19",
+      "image": "puzzle-complete.jpg",
+      "oldImage": null,
+      "detail": "09/18 依据 Figma 289:428 和 289:554 实现拼块轮廓、浅黄知识卡、圆点翻页。目录与解锁数据来自后端。"
+    },
+    {
+      "id": "F2",
+      "title": "卡通头像改为真实照片",
+      "insight": "用户要求拼图显示动物真实形象。",
+      "kind": "图片内容迭代",
+      "evidence": "实现记录",
+      "before": [
+        "早期拼图复用动物头像",
+        "不能作为真实外貌参考"
+      ],
+      "after": [
+        "同一物种实拍照片",
+        "封面 / 拼块 / 参考 / 卡片共用"
+      ],
+      "result": "地球仍保留 Figma 图标，拼图使用本地真实照片。",
+      "refs": [
+        {
+          "file": "server/puzzles.mjs",
+          "line": 5,
+          "symbol": "const photographFor"
+        },
+        {
+          "file": "server/puzzles.mjs",
+          "line": 14,
+          "symbol": "function speciesChallenge"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 4,
+          "symbol": "const art="
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:89",
+      "image": "photo-red-panda.jpg",
+      "oldImage": "icon-red-panda.png",
+      "detail": "09/25 文档与用户迭代要求支持这次变化，未保留 09/18 运行代码快照。图中 Before 为实际旧头像资源示例，不冒充历史游戏截图。"
+    },
+    {
+      "id": "F3",
+      "title": "照片物种与显示比例",
+      "insight": "相似动物或被裁切的图片会误导拼图识别。",
+      "kind": "数据与样式修正",
+      "evidence": "实现记录",
+      "before": [
+        "候选图片需逐一辨认",
+        "竖图曾受网格默认尺寸影响"
+      ],
+      "after": [
+        "recordId + scientificName 双匹配",
+        "原始比例 + 来源 / 许可"
+      ],
+      "result": "江豚竖图完整显示，袋熊和鼠海豚采用核对后的实拍。",
+      "refs": [
+        {
+          "file": "server/puzzles.mjs",
+          "line": 5,
+          "symbol": "const photographFor"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 23,
+          "symbol": "const shell="
+        },
+        {
+          "file": "public/puzzle.css",
+          "line": 14,
+          "symbol": "grid-template-rows:minmax(0,1fr)"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:89",
+      "image": "puzzle-portrait.jpg",
+      "oldImage": null,
+      "detail": "爪哇犀用历史黑白照片，袋熊用昆士兰政府红外监测照片。照片有尺寸、SHA-256、作者和许可。这里的 Before 是问题示意，非伪造的旧图。"
+    },
+    {
+      "id": "F4",
+      "title": "仅保留地球上的动物拼图",
+      "insight": "用户要求取消地球没有的动物关卡。",
+      "kind": "关卡范围收敛",
+      "evidence": "实现记录",
+      "before": [
+        "早期：32 关包含三角龙",
+        "化石不属于地球动物标记"
+      ],
+      "after": [
+        "目录精确等于 31 个地球动物",
+        "旧三角龙直接地址也不可用"
+      ],
+      "result": "统一目录与详情入口，保留历史资产和存档用于追溯。",
+      "refs": [
+        {
+          "file": "server/puzzles.mjs",
+          "line": 27,
+          "symbol": "function challenges"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 7,
+          "symbol": "export function puzzleLink"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 70,
+          "symbol": "e.code==='PUZZLE_NOT_FOUND'"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:101",
+      "image": null,
+      "oldImage": null,
+      "detail": "以 point、design、iconAsset、非 emptyInFigma 与实拍绑定共同筛选。接口不能通过绕过目录继续开启非地球关卡。历史照片清单仍有 32 张，其中三角龙已归档。"
+    },
+    {
+      "id": "F5",
+      "title": "完整参考与多方式交换",
+      "insight": "手机用户需要看得到目标，也能轻松移动拼块。",
+      "kind": "游戏交互实现",
+      "evidence": "实现记录",
+      "before": [
+        "需求：拼图目标要可参照",
+        "触屏不能依赖鼠标拖放"
+      ],
+      "after": [
+        "实拍缩略图 / 完整照片预览",
+        "拖动、两次点选、键盘交换"
+      ],
+      "result": "展示归位数量、交换次数、提示与自动保存反馈。",
+      "refs": [
+        {
+          "file": "public/js/puzzles.js",
+          "line": 13,
+          "symbol": "export function puzzleView"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 64,
+          "symbol": "function choose"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 85,
+          "symbol": "board.addEventListener('pointerdown'"
+        }
+      ],
+      "test": "docs/PUZZLE_IMPLEMENTATION.md",
+      "image": "puzzle-mobile.jpg",
+      "oldImage": null,
+      "detail": "当前 3×3 拼图使用原 Figma 遮罩，按实际照片比例计算棋盘。拖动超过 8px 才进入移动，避免点按误触；提示由服务端纠正一块。"
+    },
+    {
+      "id": "G1",
+      "title": "服务端判定拼图完成",
+      "insight": "客户端不能伪造 completed 来直接解锁。",
+      "kind": "游戏规则后端实现",
+      "evidence": "源码差异",
+      "before": [
+        "09/17：没有游戏进度模型",
+        "新增功能需可信完成判定"
+      ],
+      "after": [
+        "服务器打乱并保存排列",
+        "仅合法 swap / hint 可改变顺序"
+      ],
+      "result": "每块归位后才完成，非法位置与伪造完成被拒绝。",
+      "refs": [
+        {
+          "file": "server/puzzles.mjs",
+          "line": 7,
+          "symbol": "export function shuffledBoard"
+        },
+        {
+          "file": "server/puzzles.mjs",
+          "line": 13,
+          "symbol": "export const solved"
+        },
+        {
+          "file": "server/puzzles.mjs",
+          "line": 35,
+          "symbol": "update(req,res,id,data)"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:41",
+      "image": null,
+      "oldImage": null,
+      "detail": "Fisher-Yates 随机排列确保开始不为已完成状态。客户端只提交交换位置和版本，不接受直接写 board 或 completed。"
+    },
+    {
+      "id": "G2",
+      "title": "访客与账号分别续玩",
+      "insight": "无需注册可体验，登录后也要有稳定归属。",
+      "kind": "进度持久化实现",
+      "evidence": "源码差异",
+      "before": [
+        "09/17：没有拼图续玩能力",
+        "新增功能需确定保存身份"
+      ],
+      "after": [
+        "访客 HttpOnly Cookie 身份",
+        "账号身份 + SQLite 进度"
+      ],
+      "result": "刷新或服务重启可继续，同账号可在同部署跨设备续玩。",
+      "refs": [
+        {
+          "file": "server/puzzles.mjs",
+          "line": 21,
+          "symbol": "function owner"
+        },
+        {
+          "file": "server/puzzles.mjs",
+          "line": 29,
+          "symbol": "const recordId="
+        },
+        {
+          "file": "server/puzzles.mjs",
+          "line": 41,
+          "symbol": "store.create('puzzle'"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:32,50,66",
+      "image": null,
+      "oldImage": null,
+      "detail": "Cookie 令牌摘要用于访客记录 ID，账号记录与访客互相隔离。清 Cookie 无法恢复访客进度，登录不会自动合并两份进度。"
+    },
+    {
+      "id": "G3",
+      "title": "进度冲突与保存反馈",
+      "insight": "并行页面或网络异常不能覆盖新进度。",
+      "kind": "并发一致性实现",
+      "evidence": "源码差异",
+      "before": [
+        "新增拼图：多端可能同时交换",
+        "需要检测陈旧版本"
+      ],
+      "after": [
+        "提交 from / to / version",
+        "409 后重新载入最近进度"
+      ],
+      "result": "保存时禁用操作，失败时保留并同步可确认状态。",
+      "refs": [
+        {
+          "file": "server/puzzles.mjs",
+          "line": 46,
+          "symbol": "data.version!==r.version"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 50,
+          "symbol": "async function update"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 33,
+          "symbol": "board.setAttribute('aria-busy'"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:41,50",
+      "image": null,
+      "oldImage": null,
+      "detail": "服务端事务包装修改，返回新版本。前端发生错误后尝试 GET 最新进度，提示继续操作，不把未确认交换显示为保存成功。"
+    },
+    {
+      "id": "G4",
+      "title": "知识卡正文由后端解锁",
+      "insight": "锁定状态不能只在界面遮住正文。",
+      "kind": "解锁接口实现",
+      "evidence": "源码差异",
+      "before": [
+        "新增知识卡：需限制读取",
+        "不能只靠前端隐藏"
+      ],
+      "after": [
+        "未解锁：cards = []",
+        "完成后：3 张卡片正文"
+      ],
+      "result": "目录不返回正文，语言切换也无法绕过解锁。",
+      "refs": [
+        {
+          "file": "server/puzzles.mjs",
+          "line": 30,
+          "symbol": "const publicChallenge="
+        },
+        {
+          "file": "server/puzzles.mjs",
+          "line": 31,
+          "symbol": "function payload"
+        },
+        {
+          "file": "public/js/puzzles.js",
+          "line": 26,
+          "symbol": "function drawCards"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:19,50; tests/i18n.test.mjs:49",
+      "image": null,
+      "oldImage": null,
+      "detail": "认识它、它的家园、一起了解保护分别关联对应物种摘要、栖息地与威胁。知识卡保留历史数据待复核提示和来源链接。"
+    },
+    {
+      "id": "G5",
+      "title": "收藏保留与关卡下架",
+      "insight": "重新挑战不应丢失已获得的知识卡。",
+      "kind": "进度生命周期实现",
+      "evidence": "源码差异",
+      "before": [
+        "新增功能需区分挑战和收藏",
+        "下架资料不能被旧链接访问"
+      ],
+      "after": [
+        "restart 重置排列与次数",
+        "保留 unlockedAt，仍查公开目录"
+      ],
+      "result": "重玩保留卡片，物种下架和账号删除同步影响进度访问。",
+      "refs": [
+        {
+          "file": "server/puzzles.mjs",
+          "line": 47,
+          "symbol": "if(data.action==='restart')"
+        },
+        {
+          "file": "server/puzzles.mjs",
+          "line": 28,
+          "symbol": "function challenge(id)"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 56,
+          "symbol": "function deleteScope"
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:50,66,77",
+      "image": null,
+      "oldImage": null,
+      "detail": "旧三角龙关卡不可访问，但未主动删除历史访客存档。账号注销通过 owner_id 范围清理该账号的拼图记录。"
+    },
+    {
+      "id": "H1",
+      "title": "中文 / English 切换",
+      "insight": "用户希望同一个 App 可随时选择中英文。",
+      "kind": "国际化迭代",
+      "evidence": "源码差异",
+      "before": [
+        "历史界面以中文为主",
+        "没有全站语言选择入口"
+      ],
+      "after": [
+        "顶部固定中文 / English 按钮",
+        "URL 参数 + 本地偏好记忆"
+      ],
+      "result": "纪念、探索、设置、拼图、表单与错误提示同步切换。",
+      "refs": [
+        {
+          "file": "public/index.html",
+          "line": 19,
+          "symbol": "data-language"
+        },
+        {
+          "file": "public/js/i18n.js",
+          "line": 4,
+          "symbol": "export function readLanguage"
+        },
+        {
+          "file": "public/language.css",
+          "line": 1,
+          "symbol": ".language-bar"
+        }
+      ],
+      "test": "tests/i18n.test.mjs:17,44",
+      "image": "globe-en.jpg",
+      "oldImage": "globe-before.jpg",
+      "detail": "显式 ?lang=en 或 zh-CN 优先，随后读取浏览器偏好，默认中文。存储不可用时仍可通过 URL 使用语言。截图 Before 来自此前保存的中文运行页面。"
+    },
+    {
+      "id": "H2",
+      "title": "物种与知识卡英文内容",
+      "insight": "仅翻译按钮不足以让英文用户理解物种。",
+      "kind": "内容国际化",
+      "evidence": "源码差异",
+      "before": [
+        "原有中文物种简介和卡片",
+        "专业名称需要对应同一物种"
+      ],
+      "after": [
+        "40 条物种英文资料",
+        "31 组拼图知识卡英文"
+      ],
+      "result": "保留学名、保护等级、照片和资料待复核说明。",
+      "refs": [
+        {
+          "file": "public/js/locales/species-en.js",
+          "line": 2,
+          "symbol": "export const SPECIES_EN"
+        },
+        {
+          "file": "public/js/i18n.js",
+          "line": 35,
+          "symbol": "export function localizeResponse"
+        },
+        {
+          "file": "public/js/locales/en.js",
+          "line": 1,
+          "symbol": "export const EN"
+        }
+      ],
+      "test": "tests/i18n.test.mjs:33,49",
+      "image": null,
+      "oldImage": null,
+      "detail": "翻译覆盖名称、栖息地、威胁、来源说明、卡片与交互反馈。新编辑的未知内容没有核对译文时保留原文，不虚构机器翻译。"
+    },
+    {
+      "id": "H3",
+      "title": "中文、英文与学名检索",
+      "insight": "切换语言后，应能用看到的英文名称搜索。",
+      "kind": "前后端查询迭代",
+      "evidence": "源码差异",
+      "before": [
+        "旧条件：中文名 + 学名",
+        "英文名未覆盖全部历史记录"
+      ],
+      "after": [
+        "publicSpecies 补英文名称",
+        "同一 ID 支持三种名称查询"
+      ],
+      "result": "例如“小熊猫”“red panda”和学名命中同一资料。",
+      "refs": [
+        {
+          "file": "server/app.mjs",
+          "line": 54,
+          "symbol": "function publicSpecies"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 109,
+          "symbol": "${s.name} ${s.englishName} ${s.scientificName}"
+        },
+        {
+          "file": "public/js/locales/species-en.js",
+          "line": 10,
+          "symbol": "Ailurus fulgens"
+        }
+      ],
+      "test": "tests/i18n.test.mjs:39",
+      "image": null,
+      "oldImage": null,
+      "detail": "英文名称按学名映射，读取时补齐，不重写数据库历史原文。地区显示可翻译，但筛选的底层 region 值保持一致。"
+    },
+    {
+      "id": "H4",
+      "title": "切换语言保留当前位置",
+      "insight": "切换语言不应让用户重新找动物或重新拼图。",
+      "kind": "状态保持迭代",
+      "evidence": "源码差异",
+      "before": [
+        "新增语言切换需要重载页面",
+        "地球视角和筛选可能丢失"
+      ],
+      "after": [
+        "会话保存 camera / filters / route",
+        "恢复视角，复用原有拼图存档"
+      ],
+      "result": "已完成的拼图和知识卡不按语言建立重复副本。",
+      "refs": [
+        {
+          "file": "public/js/app.js",
+          "line": 11,
+          "symbol": "sessionStorage.getItem('anikind:language-view')"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 20,
+          "symbol": "sessionStorage.setItem('anikind:language-view'"
+        },
+        {
+          "file": "public/js/app.js",
+          "line": 19,
+          "symbol": "aria-busy=\"true\""
+        }
+      ],
+      "test": "tests/i18n.test.mjs:49; docs/LANGUAGES.md",
+      "image": null,
+      "oldImage": null,
+      "detail": "保存中的拼图暂缓语言切换。模态打开时背景语言按钮不可操作，避免意外丢失正在编辑的表单。浏览器核对视角、筛选及交换后进度保留。"
+    },
+    {
+      "id": "H5",
+      "title": "私人输入保持原文",
+      "insight": "翻译界面时不能改掉用户的名字或记忆。",
+      "kind": "翻译边界实现",
+      "evidence": "源码差异",
+      "before": [
+        "新增翻译涉及模板与动态值",
+        "必须保留输入和接口标识"
+      ],
+      "after": [
+        "t / tr 只翻译已编写的文字",
+        "动态值随后插入，继续转义"
+      ],
+      "result": "用户名、宠物名、正文、文件名与表单值保持原文。",
+      "refs": [
+        {
+          "file": "public/js/i18n.js",
+          "line": 16,
+          "symbol": "export function translate"
+        },
+        {
+          "file": "public/js/i18n.js",
+          "line": 24,
+          "symbol": "export function tr("
+        },
+        {
+          "file": "public/js/api.js",
+          "line": 19,
+          "symbol": "export const E"
+        }
+      ],
+      "test": "tests/i18n.test.mjs:24",
+      "image": null,
+      "oldImage": null,
+      "detail": "只翻译文本及 aria-label、placeholder、title、alt，不改 ID、data-*、事件动作、URL 与表单 value。危险操作确认短语保留后端要求的中文。"
+    },
+    {
+      "id": "I1",
+      "title": "本地服务恢复与启动",
+      "insight": "网页打不开，需要恢复服务并提供启动入口。",
+      "kind": "运行恢复与工具实现",
+      "evidence": "运行记录",
+      "before": [
+        "服务停止时 127.0.0.1 不可达",
+        "关闭或重启进程影响页面"
+      ],
+      "after": [
+        "隐藏后台启动 + 健康探测",
+        "日志、PID 与重复启动检测"
+      ],
+      "result": "本轮已恢复本机页面，电脑重启后可运行启动脚本。",
+      "refs": [
+        {
+          "file": "Start-AniKind.ps1",
+          "line": 20,
+          "symbol": "$health = Invoke-RestMethod"
+        },
+        {
+          "file": "Start-AniKind.ps1",
+          "line": 26,
+          "symbol": "Start-Process"
+        },
+        {
+          "file": "server/index.mjs",
+          "line": 4,
+          "symbol": "app.server.listen"
+        }
+      ],
+      "test": "output/website-restored-2026-10-29.jpg",
+      "image": null,
+      "oldImage": null,
+      "detail": "启动脚本在 09/17 快照中已存在，10/29 是恢复既有服务，不冒充新建另一套网页。127.0.0.1 仅限当前设备，本图册不提供公网承诺。"
+    },
+    {
+      "id": "I2",
+      "title": "新加坡部署准备",
+      "insight": "新加坡站点需要部署资源，用户已暂停付费。",
+      "kind": "部署准备 / 暂停发布",
+      "evidence": "实现记录",
+      "before": [
+        "只有本地开发服务",
+        "没有域名或云服务器"
+      ],
+      "after": [
+        "Docker / Compose / Caddy 模板",
+        "生产禁用 demo + 持久数据卷"
+      ],
+      "result": "部署包已准备，尚未购买资源或发布公网域名。",
+      "refs": [
+        {
+          "file": "Dockerfile",
+          "line": 1,
+          "symbol": "FROM"
+        },
+        {
+          "file": "compose.yaml",
+          "line": 1,
+          "symbol": "services:"
+        },
+        {
+          "file": "deploy/Caddyfile",
+          "line": 3,
+          "symbol": "reverse_proxy"
+        }
+      ],
+      "test": "docs/SINGAPORE_DEPLOYMENT.md",
+      "image": null,
+      "oldImage": null,
+      "detail": "区域由云平台选择，不能仅通过改域名改变服务器地域。没有 Docker 引擎实测或中国网络连通性验证，未声称部署成功。用户已表示暂时不需要付费。"
+    },
+    {
+      "id": "I3",
+      "title": "运行资源本地化",
+      "insight": "图片、地图和脚本不应依赖境外图床即时加载。",
+      "kind": "资源交付实现",
+      "evidence": "实现记录",
+      "before": [
+        "设计导出链接与候选远程图片",
+        "运行时稳定性需要落地"
+      ],
+      "after": [
+        "Figma / 地图 / D3 / 照片本地文件",
+        "同源静态服务 + 许可记录"
+      ],
+      "result": "首屏与拼图不依赖 Figma 临时链接、海外字体或图片 CDN。",
+      "refs": [
+        {
+          "file": "scripts/fetch-globe-assets.mjs",
+          "line": 1,
+          "symbol": "writeFile"
+        },
+        {
+          "file": "scripts/fetch-wildlife-photos.ps1",
+          "line": 37,
+          "symbol": "Invoke-WebRequest"
+        },
+        {
+          "file": "server/app.mjs",
+          "line": 258,
+          "symbol": "const publicRoot="
+        }
+      ],
+      "test": "tests/puzzles.test.mjs:86",
+      "image": null,
+      "oldImage": null,
+      "detail": "保留第三方 D3 的 LICENSE，第三方库不计为自研代码。静态公共资源可缓存，私人 API no-store。中国公网可达性仍须真实部署后验证。"
+    },
+    {
+      "id": "I4",
+      "title": "资产与交付维护脚本",
+      "insight": "后续更新需要能够检查、打包和追溯。",
+      "kind": "工程化实现",
+      "evidence": "实现记录",
+      "before": [
+        "需求：补资源与维护资料",
+        "部署时需排除私有数据"
+      ],
+      "after": [
+        "素材清单 / 照片校验 / 语法检查",
+        "白名单打包公开源文件"
+      ],
+      "result": "源码包排除 .env、私人数据库和上传素材。",
+      "refs": [
+        {
+          "file": "scripts/check.mjs",
+          "line": 1,
+          "symbol": "node"
+        },
+        {
+          "file": "scripts/check-wildlife-photos.py",
+          "line": 25,
+          "symbol": "sha256"
+        },
+        {
+          "file": "scripts/package-deployment.ps1",
+          "line": 1,
+          "symbol": "$"
+        }
+      ],
+      "test": "docs/ASSETS.md; docs/API.md",
+      "image": null,
+      "oldImage": null,
+      "detail": "补充 API、AI 网关协议、地球、拼图、照片、语言与部署文档。图册附完整文件登记和规范化逐行差异。压缩包未收录的维护脚本不直接当作后来新建。"
+    },
+    {
+      "id": "I5",
+      "title": "验证范围随功能扩展",
+      "insight": "新增功能需要覆盖行为与边界，而不只检查截图。",
+      "kind": "自动验证迭代",
+      "evidence": "源码差异",
+      "before": [
+        "09/17：24 项已有测试",
+        "权限 / 生命周期 / 地球"
+      ],
+      "after": [
+        "新增 9 项拼图 + 6 项双语",
+        "当前共 39 项测试通过"
+      ],
+      "result": "覆盖造假解锁、进度隔离、物种匹配与语言状态。",
+      "refs": [
+        {
+          "file": "tests/api.test.mjs",
+          "line": 25,
+          "symbol": "test('public"
+        },
+        {
+          "file": "tests/puzzles.test.mjs",
+          "line": 19,
+          "symbol": "test('puzzle"
+        },
+        {
+          "file": "tests/i18n.test.mjs",
+          "line": 17,
+          "symbol": "test('language"
+        }
+      ],
+      "test": "tests/globe.test.mjs; tests/lifecycle.test.mjs",
+      "image": null,
+      "oldImage": null,
+      "detail": "测试数量来自实际 test 声明及本轮执行记录。已做浏览器尺寸模拟，不代表生产负载、完整读屏、真机触控、真实 AI、容器或公网网络已验收。"
+    }
+  ]
+}

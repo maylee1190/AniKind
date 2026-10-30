@@ -1,0 +1,533 @@
+[
+  {
+    "file": ".dockerignore",
+    "status": "unchanged",
+    "oldLines": 12,
+    "lines": 12,
+    "sha256": "b6512d4026a73b98f4641335bbbd0b38aab3c2401d394235f40661c3814e984e",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": ".env.example",
+    "status": "unchanged",
+    "oldLines": 14,
+    "lines": 14,
+    "sha256": "1dec496e17b1f73bc966d36877bdfcd6c822e7e71355597510c2e4e68be7e7e9",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": ".gitignore",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 6,
+    "sha256": "4f14dbcac9a13731d1389dbd3c9f5c222aa9ad7b4c22117dbb59725c97d1bd82",
+    "added": 6,
+    "removed": 0
+  },
+  {
+    "file": "Dockerfile",
+    "status": "unchanged",
+    "oldLines": 13,
+    "lines": 13,
+    "sha256": "41e8e7d5334ef5fbc461ead5ea3b4a06abdf942d94b0926930a17822475668f1",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "README.md",
+    "status": "modified",
+    "oldLines": 111,
+    "lines": 113,
+    "sha256": "0bc840e7dc975286ea9be3003e714620377a344b85a2532b199939e41d35064b",
+    "added": 5,
+    "removed": 3
+  },
+  {
+    "file": "Start-AniKind.ps1",
+    "status": "unchanged",
+    "oldLines": 39,
+    "lines": 39,
+    "sha256": "1bdff717428aaa47de410c42f4d47b8a6bf250c44edeaf909f4b19bea86d3241",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "compose.yaml",
+    "status": "unchanged",
+    "oldLines": 39,
+    "lines": 39,
+    "sha256": "7c3bb87352e0ef63aaf332a5f048d290ad3c06005801fe2187617c1c5bdf12ab",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "deploy/.env.example",
+    "status": "unchanged",
+    "oldLines": 2,
+    "lines": 2,
+    "sha256": "5077f000db26614f37943306e7c28d89cc6aa783e0427d7f6f7232080193ae3f",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "deploy/Caddyfile",
+    "status": "unchanged",
+    "oldLines": 5,
+    "lines": 5,
+    "sha256": "683d69dd01b1b15f9e240f98f0e3e9e97d3ac857dc19c7de7b205d3a5278c3b1",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "docs/AI_PROVIDER.md",
+    "status": "unchanged",
+    "oldLines": 66,
+    "lines": 66,
+    "sha256": "598a981791244a0b99348cd01f81f478c1e6f388cb9badd8b050fd59f059522f",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "docs/API.md",
+    "status": "modified",
+    "oldLines": 86,
+    "lines": 96,
+    "sha256": "acd258951971e9e283fb3e122e1c6a7fc85882bf5e8015d2da499d1c6925fe09",
+    "added": 10,
+    "removed": 0
+  },
+  {
+    "file": "docs/ASSETS.md",
+    "status": "modified",
+    "oldLines": 23,
+    "lines": 27,
+    "sha256": "6eaa6b129b8e21f0596dbdd0a0f853d389f18904c71ab0490bce2a83cd0a3e2e",
+    "added": 4,
+    "removed": 0
+  },
+  {
+    "file": "docs/GLOBE_IMPLEMENTATION.md",
+    "status": "modified",
+    "oldLines": 79,
+    "lines": 79,
+    "sha256": "4c9ed3cd642d018b93d1e407aa21717e8b2c76ab27b40c5bee0d3598f4734ceb",
+    "added": 1,
+    "removed": 1
+  },
+  {
+    "file": "docs/LANGUAGES.md",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 21,
+    "sha256": "87fead5bacc1a2263a638f2ef3360321cbe6e7309f81b1beb8a268e535bd1b93",
+    "added": 21,
+    "removed": 0
+  },
+  {
+    "file": "docs/PUZZLE_IMPLEMENTATION.md",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 52,
+    "sha256": "8d255c48b0d99d9ab2bbea6144a094942c06e0e5bad84f812c82058f901e6e5d",
+    "added": 52,
+    "removed": 0
+  },
+  {
+    "file": "docs/SINGAPORE_DEPLOYMENT.md",
+    "status": "unchanged",
+    "oldLines": 47,
+    "lines": 47,
+    "sha256": "4737d58bb44ad4554d44612aecd0b874c71b0bf4ad93d865b19cb3d5ac04f02c",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "docs/VALIDATION.md",
+    "status": "unchanged",
+    "oldLines": 81,
+    "lines": 81,
+    "sha256": "717deb2ee2782216799201faaa19be443efd6ee5242e73061458fd1f5f46d582",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "docs/WILDLIFE_PHOTOS.md",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 59,
+    "sha256": "1024070c82dbcfa50327507e7348fefe4f91be6bde25997661533e798250e1d1",
+    "added": 59,
+    "removed": 0
+  },
+  {
+    "file": "docs/figma-globe-assets.json",
+    "status": "unchanged",
+    "oldLines": 477,
+    "lines": 477,
+    "sha256": "61eb70ad9d8e78e809d3d4dc2f0121df654c40bf8574323b5d0817b94c241c07",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "docs/figma-puzzle-assets.json",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 121,
+    "sha256": "185364e92ce2e98c1574520fb6f77d2b6ff8591f1a9c8e040fd1f8654f32846c",
+    "added": 121,
+    "removed": 0
+  },
+  {
+    "file": "package.json",
+    "status": "unchanged",
+    "oldLines": 15,
+    "lines": 15,
+    "sha256": "795356f6e2432e095716a79c166dfd61e7bb5efed30cbc8597c0c2181f171878",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "public/globe.css",
+    "status": "unchanged",
+    "oldLines": 92,
+    "lines": 92,
+    "sha256": "fa9ace555683764ebe0141bce46e352ff27c0dbcb364d6bdb719c93a9d16e3b0",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "public/index.html",
+    "status": "modified",
+    "oldLines": 33,
+    "lines": 36,
+    "sha256": "718cad1a0a1d8dafead1156f2bbd89d9a2a1998ce8ddbd79d604adbb9e85b080",
+    "added": 3,
+    "removed": 0
+  },
+  {
+    "file": "public/js/api.js",
+    "status": "modified",
+    "oldLines": 20,
+    "lines": 21,
+    "sha256": "7b867b29b3ebffa5b4e3f52174f324db82c414078a40d1583a513107f9596512",
+    "added": 4,
+    "removed": 3
+  },
+  {
+    "file": "public/js/app.js",
+    "status": "modified",
+    "oldLines": 206,
+    "lines": 226,
+    "sha256": "17f7c96ef72a888bdd2d9a28ffa9e48b3e3c3e6d808a112205e08413f8b9b7cc",
+    "added": 94,
+    "removed": 74
+  },
+  {
+    "file": "public/js/globe-math.js",
+    "status": "unchanged",
+    "oldLines": 25,
+    "lines": 25,
+    "sha256": "7869b06458236ed2a16c610472a19222be0a526bd564818602c8c523281b9379",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "public/js/globe.js",
+    "status": "modified",
+    "oldLines": 191,
+    "lines": 192,
+    "sha256": "88a8e2afde5bc0ad2ac67c780c32685f65eae0bf637cc56e912fd3350bf4dd62",
+    "added": 8,
+    "removed": 7
+  },
+  {
+    "file": "public/js/i18n.js",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 45,
+    "sha256": "1e916d8790ddc213f7ee7203a0e0ca7f48e979aa7e5cebddb91cfbaf9e35843b",
+    "added": 45,
+    "removed": 0
+  },
+  {
+    "file": "public/js/locales/en.js",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 719,
+    "sha256": "9d4afd05ff751270d2fbb0c8e3d44384810d1222ad5d40c0ed5775044972d379",
+    "added": 719,
+    "removed": 0
+  },
+  {
+    "file": "public/js/locales/species-en.js",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 196,
+    "sha256": "d7f05d1dac141735f8458956e6568e9a843aa28153f43b407ac82fca6ceea3ab",
+    "added": 196,
+    "removed": 0
+  },
+  {
+    "file": "public/js/puzzles.js",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 108,
+    "sha256": "c80281e094a9d35d702a8308433817621af5aa7c3b177d32ed8b989b71a90116",
+    "added": 108,
+    "removed": 0
+  },
+  {
+    "file": "public/js/views.js",
+    "status": "modified",
+    "oldLines": 49,
+    "lines": 51,
+    "sha256": "7ff098cffc113d49871dac11dc061ade840c14e9427f82fd522b064c83214d2a",
+    "added": 29,
+    "removed": 27
+  },
+  {
+    "file": "public/language.css",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 3,
+    "sha256": "a1aa9be43706b188ef31f7f3b5fe8a76ace4a10c67b22fa4298c16a822a0e42d",
+    "added": 3,
+    "removed": 0
+  },
+  {
+    "file": "public/puzzle.css",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 16,
+    "sha256": "ab3330c48fc9e4e9511fce19df15d0134da10e6d14e803d7514d5288b1c6e788",
+    "added": 16,
+    "removed": 0
+  },
+  {
+    "file": "public/styles.css",
+    "status": "unchanged",
+    "oldLines": 12,
+    "lines": 12,
+    "sha256": "69d3a739f19bf73839bf37d3207ffc1a49f3648075d1e3067e32cf1284e30c51",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "scripts/check-wildlife-photos.py",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 33,
+    "sha256": "a78858a041e6a4820cc75d19c8adc3e4daa3fcf80324186dc09e4458424ab8ee",
+    "added": 33,
+    "removed": 0
+  },
+  {
+    "file": "scripts/check.mjs",
+    "status": "unchanged",
+    "oldLines": 7,
+    "lines": 7,
+    "sha256": "87563b0bdb86a487c9773f1616d6fe629b5e7fcc12a7532c697421ad2af2c4e8",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "scripts/fetch-globe-assets.mjs",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 22,
+    "sha256": "c7aafcb4d76522c5ab3ccd97df4a207201fa67b45e7a6efcb39ca54ab3e827d5",
+    "added": 22,
+    "removed": 0
+  },
+  {
+    "file": "scripts/fetch-puzzle-assets.mjs",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 5,
+    "sha256": "971e57cb19a876c623061c34fdfaaec6d74624887383e53d4b547601d8b41868",
+    "added": 5,
+    "removed": 0
+  },
+  {
+    "file": "scripts/fetch-wildlife-photos.ps1",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 44,
+    "sha256": "f0c899eefbc57b38619348a96680c9c45bc9e2164886b27e25d140b7b7721440",
+    "added": 44,
+    "removed": 0
+  },
+  {
+    "file": "scripts/package-deployment.ps1",
+    "status": "unchanged",
+    "oldLines": 26,
+    "lines": 26,
+    "sha256": "b438225d29c0928c624c736c805a2c21bd2c7d5fac9a5b77698f29e294c86188",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "scripts/prepare-globe-data.mjs",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 29,
+    "sha256": "0be251ee0b17dcde0be15f4f9cf36f41858fcfd5204a49fa7c583fcb17decfbc",
+    "added": 29,
+    "removed": 0
+  },
+  {
+    "file": "scripts/prepare-wildlife-photos.ps1",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 35,
+    "sha256": "6b5cefce60c7409747e0e1a5bee0c728d7bbe12fffc1ac7642f0a07d72960ccf",
+    "added": 35,
+    "removed": 0
+  },
+  {
+    "file": "scripts/role.mjs",
+    "status": "unchanged",
+    "oldLines": 5,
+    "lines": 5,
+    "sha256": "7fa9f1195debcd46e2d5df3ff3329a7696b44bec4c5fb8fc30b05ec496d6104a",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "server/app.mjs",
+    "status": "modified",
+    "oldLines": 264,
+    "lines": 271,
+    "sha256": "ba159a4128d4795c7ec750c674e0119b4931f2457a92cb9799c2955f8eab6838",
+    "added": 8,
+    "removed": 1
+  },
+  {
+    "file": "server/auth.mjs",
+    "status": "unchanged",
+    "oldLines": 64,
+    "lines": 64,
+    "sha256": "7023a13b0d6fe08fd3489a57645ff75962ae97b2d45939d8c46344df9fe154df",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "server/core.mjs",
+    "status": "unchanged",
+    "oldLines": 65,
+    "lines": 65,
+    "sha256": "e77c7e2ae797c16b5883e52596ff292796eac779bd228f9e819c0d8399a952eb",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "server/generation.mjs",
+    "status": "unchanged",
+    "oldLines": 124,
+    "lines": 124,
+    "sha256": "a3773c9f099cba94c52044f7615b2f6e289d79e65f98145e1194667937cd6dad",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "server/globe-species.json",
+    "status": "unchanged",
+    "oldLines": 845,
+    "lines": 845,
+    "sha256": "6627d66ec8f968406fdd04bd17d6b225bc54fef934cd6f4d6d97979c2961d0ac",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "server/index.mjs",
+    "status": "unchanged",
+    "oldLines": 5,
+    "lines": 5,
+    "sha256": "3d862bd6530f0663b5b1ed72deb714a08fd8ea4a0e63a60b8260ca9338781015",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "server/media.mjs",
+    "status": "unchanged",
+    "oldLines": 71,
+    "lines": 71,
+    "sha256": "667efe6a728619509696c4dc0b804053504c3742a1562eb37b80fc44e5f97be1",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "server/puzzles.mjs",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 59,
+    "sha256": "4ca4226e06d5f1a9f07afe8247ec04e14fd5dfef8ad28e0c445ee21062dc9e5a",
+    "added": 59,
+    "removed": 0
+  },
+  {
+    "file": "server/seed.mjs",
+    "status": "unchanged",
+    "oldLines": 31,
+    "lines": 31,
+    "sha256": "26070469a09994873e03ccd498de88bc5c940cca71384008f53e453482741913",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "server/wildlife-photos.json",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 610,
+    "sha256": "b3941b529f42ea24d42a57272a4162e49e4f4b074af0b505a58cfde6347807b9",
+    "added": 610,
+    "removed": 0
+  },
+  {
+    "file": "tests/api.test.mjs",
+    "status": "unchanged",
+    "oldLines": 138,
+    "lines": 138,
+    "sha256": "032ba9d28e18010ffdd29d58ac5e084448b2eca2c20338f91dfdc4adef89cf75",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "tests/globe.test.mjs",
+    "status": "unchanged",
+    "oldLines": 45,
+    "lines": 45,
+    "sha256": "2fcce0b7a00c5f565571a9015105b13cab6d12eb11e6eb0513fbba31ecf53a2b",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "tests/i18n.test.mjs",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 58,
+    "sha256": "f9ca8a7e566634fce2ff57a5bbf95c626ac9dd83d9ba1146df61b88b2eae2329",
+    "added": 58,
+    "removed": 0
+  },
+  {
+    "file": "tests/lifecycle.test.mjs",
+    "status": "unchanged",
+    "oldLines": 35,
+    "lines": 35,
+    "sha256": "21b04dba178fb12a7c9d00af8b5a55b422a392148dc126280686fcd1a5f71024",
+    "added": 0,
+    "removed": 0
+  },
+  {
+    "file": "tests/puzzles.test.mjs",
+    "status": "new",
+    "oldLines": 0,
+    "lines": 111,
+    "sha256": "a0183c30b4c5cc0fce2bc00615cea543d18d37dfc9ee39896b3810da0d93ab49",
+    "added": 111,
+    "removed": 0
+  }
+]
