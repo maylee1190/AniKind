@@ -11,16 +11,19 @@
   <link rel="stylesheet" href="/globe.css">
   <link rel="stylesheet" href="/puzzle.css">
   <link rel="stylesheet" href="/language.css">
+  <link rel="stylesheet" href="/refined.css">
   <script defer src="/vendor/d3-array.min.js"></script>
   <script defer src="/vendor/d3-geo.min.js"></script>
   <script type="module" src="/js/app.js"></script>
 </head>
 <body>
+  <aside id="ref-rail" aria-label="AniKind"></aside>
   <div class="language-bar"><div class="language-switch" role="group" aria-label="Language / 语言"><button type="button" data-language="zh-CN" lang="zh-CN" aria-pressed="true">中文</button><button type="button" data-language="en" lang="en" aria-pressed="false">English</button></div></div>
   <a class="skip-link" href="#main">跳到主要内容</a>
   <div id="offline" class="offline" hidden role="status">当前已离线。已加载内容仍可阅读，输入会保留为草稿；联网后再保存。</div>
   <header class="site-header">
     <a href="#memorial" class="brand" aria-label="AniKind 纪念首页"><img src="/assets/paw.svg" width="30" height="30" alt=""><span>AniKind<span class="brand-dot">.</span></span></a>
+    <strong id="ref-page-title"></strong>
     <span class="brand-caption">让每一份爱，都有迹可循</span>
     <button id="account-button" class="account-button" data-action="account">登录 / 注册 <span aria-hidden="true">↗</span></button>
   </header>

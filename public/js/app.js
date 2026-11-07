@@ -3,6 +3,7 @@ import {api,upload,assetURL,E,dateLabel,query} from './api.js';
 import * as V from './views.js';
 import {mountGlobe} from './globe.js';
 import * as P from './puzzles.js';
+import * as R from './refined.js';
 
 const $=s=>document.querySelector(s);
 const S={user:null,config:null,pets:[],pet:null,memories:[],filteredMemories:[],jobs:[],quota:null,exports:[],route:'memorial',memoryFilters:{q:'',kind:'',favorite:false,sort:'newest'},speciesFilters:{q:'',region:'',category:'',scope:''},speciesData:{items:[],total:0},adminData:null};
@@ -26,12 +27,17 @@ function toast(message){clearTimeout(toastTimer);$('#toast').textContent=message
 function modal(html,context={}){modalContext=context;$('#dialog-content').innerHTML=html;if(!D.open)D.showModal();else D.scrollTop=0;setTimeout(()=>D.querySelector('input:not([type=checkbox]):not([type=radio]),textarea,button')?.focus(),0);}
 function closeDialog(force=false){if(!force&&modalContext.busy)return;if(!force&&modalContext.dirty&&$('#memory-form')){saveMemoryDraft();toast(t('文字草稿已保留，可继续编辑'));}D.close();modalContext={};}
 function formError(error){const el=$('#form-error');if(el){el.textContent=error.message||String(error);el.scrollIntoView({block:'nearest'});}else toast(error.message||String(error));}
-function clearPrivate(){S.pets=[];S.pet=null;S.memories=[];S.filteredMemories=[];S.jobs=[];S.exports=[];S.quota=null;for(let i=sessionStorage.length-1;i>=0;i--){const key=sessionStorage.key(i);if(key.startsWith('anikind:'))sessionStorage.removeItem(key);}}
+function clearPrivate(){R.resetPreview();S.pets=[];S.pet=null;S.memories=[];S.filteredMemories=[];S.jobs=[];S.exports=[];S.quota=null;for(let i=sessionStorage.length-1;i>=0;i--){const key=sessionStorage.key(i);if(key.startsWith('anikind:'))sessionStorage.removeItem(key);}}
 async function guarded(action){try{await action();}catch(e){if(e.status===401&&e.code==='AUTH_REQUIRED'){clearPrivate();S.user=null;closeDialog(true);openAuth();updateChrome();}else formError(e);}}
 async function busy(form,fn){if(modalContext.busy)return;modalContext.busy=true;const b=form.querySelector('button[type=submit]'),label=b?.textContent;if(b){b.disabled=true;b.textContent=t('正在处理…');}$('#form-error')?.replaceChildren();try{await fn();}catch(e){formError(e);}finally{modalContext.busy=false;if(b?.isConnected){b.disabled=false;b.textContent=label;}}}
 function updateChrome(){
+  const [,petId]=location.hash.slice(1).split('/');
+  const family=['companion','travel','entry','letter'].includes(S.route)?'memorial':S.route;
+  $('#ref-rail').innerHTML=R.sidebar(family,petId);
+  document.body.dataset.page=S.route;
+  $('#ref-page-title').textContent=R.pageTitle(S.route,petId);
   const route=S.route==='album'?'memorial':S.route==='admin'?'settings':['puzzles','puzzle'].includes(S.route)?'explore':S.route;
-  document.querySelectorAll('[data-route]').forEach(a=>{if(a.dataset.route===route)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  document.querySelectorAll('[data-route]').forEach(a=>{if(a.dataset.route===route || (a.dataset.route==='memorial'&&family==='memorial') || (a.dataset.route==='settings'&&route==='collection'))a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   $('#account-button').innerHTML=S.user?`<span class="user-initial" aria-hidden="true">${E(S.user.name.slice(0,1))}</span><span>${E(S.user.name)}</span>`:t('登录 / 注册 <span aria-hidden="true">↗</span>');
   document.title=`${{memorial:t('纪念'),album:t('记忆相册'),explore:t('生态探索'),settings:t('我的'),admin:t('内容管理'),puzzles:t('拼图收藏'),puzzle:t('拼图探索')}[S.route]||t('纪念')} · AniKind`;
   document.body.classList.toggle('is-exploring',S.route==='explore');
@@ -49,7 +55,7 @@ async function loadPrivate(){
 }
 async function mountMap(){const saved=disposeGlobe.getState?.()||S.globeCamera;disposeGlobe();try{disposeGlobe=await mountGlobe($('#globe'),S.speciesData.items,{region:S.speciesFilters.region,camera:S.globeRegion===S.speciesFilters.region?saved:undefined,onSelect:id=>guarded(()=>showSpecies(id)),onChange:camera=>{S.globeCamera=camera;}});S.globeRegion=S.speciesFilters.region;}catch(e){const canvas=$('#globe');if(canvas)canvas.replaceWith(Object.assign(document.createElement('p'),{className:'notice',textContent:t('地球暂时无法显示，仍可通过物种列表继续探索。')}));console.error(e);}}
 async function renderRoute({refresh=true}={}){
-  const version=++routeVersion;const [route,detailId]=location.hash.slice(1).split('/');const detail=['memory','species','pet'].includes(route)&&detailId?{type:route,id:detailId}:null;S.route=detail?(route==='species'?'explore':'memorial'):route||'memorial';if(!['memorial','album','explore','settings','admin','puzzles','puzzle'].includes(S.route))S.route='memorial';
+  const version=++routeVersion;const [route,detailId]=location.hash.slice(1).split('/');const detail=['memory','species','pet'].includes(route)&&detailId?{type:route,id:detailId}:null;S.route=detail?(route==='species'?'explore':'memorial'):route||'memorial';if(!['memorial','album','explore','settings','admin','puzzles','puzzle','companion','collection','travel','entry','letter','welcome','photo','mood'].includes(S.route))S.route='memorial';
   updateChrome();disposeGlobe();disposePuzzle();
   if(['puzzles','puzzle'].includes(S.route))$('#main').innerHTML=t('<div class="loading-state" role="status"><span class="spinner"></span>正在打开拼图…</div>');
   try{
@@ -62,7 +68,22 @@ async function renderRoute({refresh=true}={}){
     else if(S.route==='album'){S.filteredMemories=navigator.onLine?(await api(`/memories?${query({petId:S.pet.id,...S.memoryFilters})}`)).items:S.memories.filter(m=>m.petId===S.pet.id);if(version!==routeVersion)return;$('#main').innerHTML=V.album(S);}
     else if(S.route==='puzzles'){const data=await api('/puzzles');if(version!==routeVersion)return;$('#main').innerHTML=P.puzzleLibrary(data);}
     else if(S.route==='puzzle'){if(!detailId){navigate('puzzles');return;}const data=await api('/puzzles/'+encodeURIComponent(detailId),{method:'POST',data:{action:'start'}});if(version!==routeVersion)return;$('#main').innerHTML=P.puzzleView(data);disposePuzzle=P.mountPuzzle($('#main'),data);}
-    else if(S.route==='settings')$('#main').innerHTML=V.settings(S);
+    else if(['welcome','photo','mood'].includes(S.route)){
+      $('#main').innerHTML=R.onboarding(S.route);
+      if(S.route==='mood')R.syncMood($('#mood-slider').value);
+    }
+    else if(S.route==='collection'){
+      const data=await api('/puzzles');
+      if(version!==routeVersion)return;
+      $('#main').innerHTML=R.collection(data.items,S.user);
+    }
+    else if(S.route==='companion'||(S.route==='memorial'&&!S.user))$('#main').innerHTML=R.companion(detailId==='milo'?'milo':'woody');
+    else if(S.route==='travel')$('#main').innerHTML=R.diary(detailId==='milo'?'milo':'woody');
+    else if(S.route==='entry'||S.route==='letter'){
+      const [pet,index]=(detailId||'woody').split('-');
+      $('#main').innerHTML=R.entry(pet==='milo'?'milo':'woody',/^[0-3]$/.test(index)?Number(index):0,S.route==='letter');
+    }
+    else if(S.route==='settings')$('#main').innerHTML='<div class="profile-shortcuts"><a href="#collection">'+(language==='en'?'Memory collection':'发现收藏')+'</a><a href="#welcome">'+(language==='en'?'Welcome':'欢迎页')+'</a></div>'+V.settings(S);
     else if(S.route==='admin'){if(!S.user){openAuth(()=>navigate('admin'));navigate('settings');return;}S.adminData=await api('/admin/content');if(version!==routeVersion)return;$('#main').innerHTML=adminView();}
     else $('#main').innerHTML=V.memorial(S);
     if(detail?.type==='species')await showSpecies(detail.id);
@@ -128,6 +149,10 @@ function contentForm(id){const s=S.adminData.items.find(s=>s.id===id)||{};const 
 const actions={
   account:()=>S.user?navigate('settings'):openAuth(),login:()=>openAuth(),memorial:()=>navigate('memorial'),explore:()=>navigate('explore'),album:()=>navigate('album'),admin:()=>navigate('admin'),retry:()=>renderRoute(),
   'close-dialog':()=>closeDialog(),'auth-tab':b=>{const email=D.querySelector('[name=email]')?.value||'';modal(V.authForm(b.dataset.value),{authMode:b.dataset.value});D.querySelector('[name=email]').value=email;},
+  'finish-onboarding':async()=>{
+    const finish=async()=>{await createPet();R.applyPreview(D.querySelector('[name=avatar]'));modalContext.fromOnboarding=true;};
+    if(requireLogin(finish))await finish();
+  },
   'create-pet':()=>createPet(),'edit-pet':b=>createPet(b.dataset.id||S.pet?.id),'create-memory':()=>{closeDialog(true);return createMemory();},'edit-memory':b=>createMemory(b.dataset.id),'create-postcard':b=>createPostcard(b.dataset.scene),
   'toggle-species-panel':()=>{const shell=$('.explore-shell');shell?.classList.toggle('browser-open');const open=shell?.classList.contains('browser-open');shell?.querySelector('[aria-expanded]')?.setAttribute('aria-expanded',String(open));if(open)$('#species-search')?.focus();},
   'species-puzzle':b=>{closeDialog(true);navigate('puzzle/'+b.dataset.id);},
@@ -177,7 +202,10 @@ const forms={
     const data=Object.fromEntries(new FormData(form)),file=form.elements.avatar.files[0];await ensureProcessing(form,!!file);const old=modalContext.pet;
     let pet=old?await api(`/pets/${old.id}`,{method:'PATCH',data:{...data,version:old.version}}):modalContext.createdPet||await api('/pets',{method:'POST',data});modalContext.createdPet=pet;modalContext.pet=pet;
     if(file){const{success,failures}=await uploadFiles([file],pet.id);if(failures.length)throw new Error(t('档案已保存，照片尚未完成：')+failures.join('；'));pet=await api(`/pets/${pet.id}`,{method:'PATCH',data:{...pet,avatarId:success[0].id,version:pet.version}});}
-    S.pet=pet;sessionStorage.setItem(`anikind:pet:${S.user.id}`,pet.id);closeDialog(true);await renderRoute();toast(t('档案已保存，仅自己可见'));
+    const finishedOnboarding=modalContext.fromOnboarding;
+    S.pet=pet;sessionStorage.setItem(`anikind:pet:${S.user.id}`,pet.id);closeDialog(true);
+    if(finishedOnboarding){R.resetPreview();navigate('memorial');}else await renderRoute();
+    toast(t('档案已保存，仅自己可见'));
   },
   'memory-form':async form=>{
     const data=Object.fromEntries(new FormData(form)),existing=modalContext.memory,id=form.dataset.id;
