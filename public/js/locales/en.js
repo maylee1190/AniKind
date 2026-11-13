@@ -635,7 +635,7 @@ export const EN={
   "拼起生命的故事": "Piece by piece, life revealed",
   "完成地球动物拼图，解锁知识卡片": "Complete a wildlife puzzle to unlock knowledge cards",
   "拼出{1}，解锁知识卡": "Complete the {0} puzzle to unlock knowledge cards",
-  "9 块实拍拼图 · 支持拖动或点击交换": "9 photo pieces · Drag or tap to swap",
+  "实拍拼图 · 支持拖动或点击交换": "Photo puzzle · Drag or tap to swap",
   "{10} / {11} 块": "{0} / {1} pieces",
   "已解锁": "Unlocked",
   "继续拼图": "Continue puzzle",

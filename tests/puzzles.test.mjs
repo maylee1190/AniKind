@@ -33,7 +33,7 @@ test('guest start creates a private persistent unsolved permutation and is idemp
   const first=await post({action:'start'});assert.equal(first.status,200);guest=first.headers.get('set-cookie').split(';')[0];current=first.data;
   assert.match(first.headers.get('set-cookie'),/HttpOnly; SameSite=Strict/);
   assert.equal(current.scope,'browser');assert.equal(current.progress.completed,false);assert.equal(current.progress.moves,0);
-  assert.deepEqual([...current.progress.board].sort((a,b)=>a-b),Array.from({length:9},(_,i)=>i));assert.deepEqual(current.cards,[]);
+  assert.deepEqual([...current.progress.board].sort((a,b)=>a-b),Array.from({length:12},(_,i)=>i));assert.deepEqual(current.cards,[]);
   assert.deepEqual((await post({action:'start'})).data,current);
   const other=await post({action:'start'},null);assert.ok(other.headers.get('set-cookie'));assert.notEqual(other.headers.get('set-cookie'),first.headers.get('set-cookie'));
   assert.equal((await request(path)).data.progress,null);
@@ -42,10 +42,10 @@ test('CSRF, forged completion, invalid swaps and stale versions cannot unlock or
   const state=structuredClone(current),version=current.progress.version;
   assert.equal((await request(path,{method:'POST',data:{action:'hint',version},cookie:guest,csrf:false})).status,403);
   assert.equal((await request(path,{method:'POST',data:{action:'hint',version},cookie:guest,origin:'https://elsewhere.example'})).status,403);
-  for(const data of [{action:'complete',completed:true,unlockedAt:'now'},{action:'swap',from:0,to:1},{action:'swap',version,from:-1,to:1},{action:'swap',version,from:0,to:9},{action:'swap',version,from:0,to:0},{action:'swap',version,from:'0',to:1}])assert.equal((await post(data)).status,422);
+  for(const data of [{action:'complete',completed:true,unlockedAt:'now'},{action:'swap',from:0,to:1},{action:'swap',version,from:-1,to:1},{action:'swap',version,from:0,to:12},{action:'swap',version,from:0,to:0},{action:'swap',version,from:'0',to:1}])assert.equal((await post(data)).status,422);
   assert.equal((await post({action:'hint',version:version+1})).status,409);
   assert.deepEqual((await request(path,{cookie:guest})).data,state);
-  const forged=await post({action:'start',board:Array.from({length:9},(_,i)=>i),completed:true,unlockedAt:'now'});assert.deepEqual(forged.data,state);
+  const forged=await post({action:'start',board:Array.from({length:12},(_,i)=>i),completed:true,unlockedAt:'now'});assert.deepEqual(forged.data,state);
 });
 test('valid swaps and hints persist across server restarts; only a solved board unlocks cards',async()=>{
   const board=current.progress.board,from=board.findIndex((piece,i)=>piece!==i),to=board.indexOf(from),oldVersion=current.progress.version;
@@ -53,11 +53,11 @@ test('valid swaps and hints persist across server restarts; only a solved board 
   assert.equal(current.progress.board[from],from);assert.equal(current.progress.moves,1);
   assert.equal((await post({action:'hint',version:oldVersion})).status,409);
   await app.close();await boot();assert.deepEqual((await request(path,{cookie:guest})).data,current);
-  for(let tries=0;!current.progress.completed&&tries<9;tries++){
+  for(let tries=0;!current.progress.completed&&tries<12;tries++){
     assert.deepEqual(current.cards,[]);const previous=current.progress.correct;
     const next=await post({action:'hint',version:current.progress.version});assert.equal(next.status,200);current=next.data;assert.ok(current.progress.correct>previous);
   }
-  assert.equal(current.progress.correct,9);assert.equal(current.progress.completed,true);assert.ok(current.progress.unlockedAt);assert.equal(current.cards.length,3);assert.equal(current.cards[0].title,'虎');
+  assert.equal(current.progress.correct,12);assert.equal(current.progress.completed,true);assert.ok(current.progress.unlockedAt);assert.equal(current.cards.length,3);assert.equal(current.cards[0].title,'虎');
   const catalog=await request('/api/puzzles',{cookie:guest});assert.equal(catalog.data.items.find(c=>c.id===current.challenge.id).unlocked,true);
   const unlockedAt=current.progress.unlockedAt;current=(await post({action:'restart',version:current.progress.version})).data;
   assert.equal(current.progress.completed,false);assert.equal(current.progress.moves,0);assert.equal(current.progress.unlockedAt,unlockedAt);assert.equal(current.cards.length,3);
@@ -76,8 +76,8 @@ test('account progress is isolated from guest and other accounts and removed on 
 });
 test('animal puzzles unlock their own species cards and withdrawn content stays unavailable',async()=>{
   const url='/api/puzzles/'+wildlifeId;
-  let animal=(await post({action:'start'},guest,url)).data;assert.equal(animal.challenge.rows*animal.challenge.cols,9);
-  for(let tries=0;!animal.progress.completed&&tries<9;tries++)animal=(await post({action:'hint',version:animal.progress.version},guest,url)).data;
+  let animal=(await post({action:'start'},guest,url)).data;assert.equal(animal.challenge.rows*animal.challenge.cols,12);
+  for(let tries=0;!animal.progress.completed&&tries<12;tries++)animal=(await post({action:'hint',version:animal.progress.version},guest,url)).data;
   assert.equal(animal.cards.length,3);assert.equal(animal.cards[0].title,animal.challenge.name);
   const s=app.store.get(wildlifeId);app.store.update(s.id,{},s.version,'withdrawn');
   assert.equal((await request(url,{cookie:guest})).status,404);

@@ -11,7 +11,7 @@ export function shuffledBoard(size){
   return board;
 }
 export const solved=board=>board.every((piece,i)=>piece===i);
-function speciesChallenge(s){const photo=photographFor(s);return {id:s.id,name:s.name,scientificName:s.scientificName,subtitle:'拼合真实照片，解锁物种知识卡',kind:'wildlife',category:s.category,rows:3,cols:3,image:photo.path,cover:photo.path,photo,imageNote:s.sourceRecordId===1?'爪哇犀历史实拍照片 · 1884 年伦敦动物园':s.sourceRecordId===31?'北方毛鼻袋熊红外监测实拍 · 昆士兰政府':s.name+' · 真实动物照片',cards:[
+function speciesChallenge(s){const photo=photographFor(s);return {id:s.id,name:s.name,scientificName:s.scientificName,subtitle:'拼合真实照片，解锁物种知识卡',kind:'wildlife',category:s.category,rows:4,cols:3,image:photo.path,cover:photo.path,photo,imageNote:s.sourceRecordId===1?'爪哇犀历史实拍照片 · 1884 年伦敦动物园':s.sourceRecordId===31?'北方毛鼻袋熊红外监测实拍 · 昆士兰政府':s.name+' · 真实动物照片',cards:[
   {title:s.name,subtitle:s.scientificName,section:'认识它',body:s.summary||`${s.name}是收录在这份物种名录中的生命。`,fact:`代表地区：${s.region}。保护等级：${s.category}。`,sourceTitle:s.sourcePublisher,sourceUrl:s.sourceUrl},
   {title:'它的家园',subtitle:s.name,section:'栖息地',body:s.habitat||'暂无足够的栖息地资料。',fact:'地球标记显示代表地区中心，并不是物种完整的分布范围。',sourceTitle:s.sourcePublisher,sourceUrl:s.sourceUrl},
   {title:'一起了解保护',subtitle:s.name,section:'它们面临什么',body:s.threats||'暂无足够的威胁因素资料。',fact:'从了解物种和栖息地开始，让保护建立在可靠资料之上。',sourceTitle:s.sourcePublisher,sourceUrl:s.sourceUrl}
@@ -27,10 +27,13 @@ export function puzzleService(store,auth,config,publicSpecies){
   function challenges(){return publicSpecies().filter(s=>s.datasetId==='anikind-figma-wildlife-v1'&&s.point&&s.design&&s.iconAsset&&!s.design.emptyInFigma&&photographFor(s)).sort((a,b)=>a.sourceRecordId-b.sourceRecordId).map(speciesChallenge);}
   function challenge(id){const c=challenges().find(c=>c.id===id);if(!c)fail(404,'PUZZLE_NOT_FOUND','这个拼图暂时不可用');return c;}
   const recordId=(ownerId,id)=>'puzzle-'+digest(ownerId+'|'+id);
-  const publicChallenge=({cards,...c})=>c;
-  function payload(c,r,scope){return {challenge:publicChallenge(c),progress:r?{board:r.board,moves:r.moves,hints:r.hints,version:r.version,correct:r.board.filter((p,i)=>p===i).length,completed:solved(r.board),unlockedAt:r.unlockedAt,updatedAt:r.updatedAt}:null,cards:r?.unlockedAt?c.cards:[],scope};}
+  function publicChallenge({cards,...c},progress){
+    // Existing nine-piece boards keep their dimensions and unlock history.
+    return progress ? {...c,rows:progress.board.length/c.cols} : c;
+  }
+  function payload(c,r,scope){return {challenge:publicChallenge(c,r),progress:r?{board:r.board,moves:r.moves,hints:r.hints,version:r.version,correct:r.board.filter((p,i)=>p===i).length,completed:solved(r.board),unlockedAt:r.unlockedAt,updatedAt:r.updatedAt}:null,cards:r?.unlockedAt?c.cards:[],scope};}
   return {
-    list(req,res){const o=owner(req,res);return {items:challenges().map(c=>{const r=o.id?store.get(recordId(o.id,c.id)):null;return {...publicChallenge(c),correct:r?.board.filter((p,i)=>p===i).length||0,unlocked:!!r?.unlockedAt};}),scope:o.scope};},
+    list(req,res){const o=owner(req,res);return {items:challenges().map(c=>{const r=o.id?store.get(recordId(o.id,c.id)):null;return {...publicChallenge(c,r),correct:r?.board.filter((p,i)=>p===i).length||0,unlocked:!!r?.unlockedAt};}),scope:o.scope};},
     get(req,res,id){const c=challenge(id),o=owner(req,res);return payload(c,o.id?store.get(recordId(o.id,id)):null,o.scope);},
     update(req,res,id,data){
       const c=challenge(id);assert(['start','swap','hint','restart'].includes(data.action),'无效的拼图操作');
@@ -44,7 +47,7 @@ export function puzzleService(store,auth,config,publicSpecies){
         if(!r)fail(409,'PUZZLE_NOT_STARTED','请先开始拼图');
         assert(Number.isInteger(data.version),'缺少进度版本');
         if(data.version!==r.version)fail(409,'VERSION_CONFLICT','拼图进度已更新，已为你重新载入');
-        if(data.action==='restart')return payload(c,store.update(key,{board:shuffledBoard(c.rows*c.cols),moves:0,hints:0},r.version,'playing'),o.scope);
+        if(data.action==='restart')return payload(c,store.update(key,{board:shuffledBoard(r.board.length),moves:0,hints:0},r.version,'playing'),o.scope);
         if(solved(r.board))return payload(c,r,o.scope);
         const board=[...r.board];let a=data.from,b=data.to;
         if(data.action==='hint'){a=board.findIndex((p,i)=>p!==i);b=board.indexOf(a);}

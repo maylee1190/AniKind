@@ -13,7 +13,7 @@ export async function mountGlobe(canvas,items,{region='',camera:initial,onSelect
   const [land,countries,dotData,sea]=await (geography||=Promise.all([json('/assets/world-land-50m.geojson'),json('/assets/world.geojson'),json('/assets/land-dots.json'),imageAsset('/assets/globe/1-6394-2485a.svg')]).catch(e=>{geography=null;throw e;}));
   if(!canvas.isConnected)return()=>{};
   const d3=window.d3;if(!d3?.geoOrthographic)throw new Error(t('地图投影模块未加载'));
-  let start=region==='亚洲'||region==='大洋洲'?'asia':region==='美洲'||region.endsWith('美洲')?'americas':'africa';
+  const start=!region||region==='亚洲'||region==='大洋洲'?'asia':region==='美洲'||region.endsWith('美洲')?'americas':'africa';
   let camera={...PRESETS[start],zoom:1,...initial},targetZoom=camera.zoom;
   let disposed=false,frame=0,dirty=true,previous=0,auto=false,velocity=[0,0],flight=null,selected=null,summaryView=null;
   let width=0,height=0,radius=0,baseRadius=0,dragged=false,pinch=null;

@@ -52,3 +52,83 @@ body,body.is-exploring,body.is-puzzling{background:var(--mist) fixed;color:#251c
  .diary-filters{justify-content:center;margin:8px 0 14px}
  .ref-diary .diary-photo{aspect-ratio:3/4}
 }
+#atlas-search {display:none}
+.setup-progress {display:none}
+@media(min-width:700px) {
+  .setup-progress {display:flex;justify-content:flex-end;gap:clamp(12px,4vw,60px);margin:0 0 12px}
+  .setup-progress a {display:flex;align-items:center;gap:8px;text-decoration:none;font-size:13px}
+  .setup-progress b {display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#ffffffa8}
+  .setup-progress [aria-current] b {background:var(--violet);color:white}
+  body:has(.setup-progress) #atlas-search {display:none}
+}
+.ref-petlinks > small {display:block;margin:0 0 12px;text-transform:uppercase;font-size:10px;letter-spacing:.07em;color:#665972}
+.friend-total {display:inline-grid;place-items:center;vertical-align:top;width:38px;height:38px;border:1px solid white;border-radius:50%;background:#ece4f4c9;margin-left:-10px;font-size:12px;font-weight:500}
+.diary-author .mini {width:30px;height:30px;vertical-align:middle;margin-right:8px}
+.diary-head > span {margin-inline-start:auto;color:#685a70;font-size:13px}
+.profile-tags {display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.profile-tags span {padding:4px 12px;border:1px solid white;border-radius:999px;background:#ffffff55;font-size:12px}
+.support-note {border:1px solid white;border-radius:24px;padding:clamp(20px,3vw,46px);background:var(--glass);margin-top:clamp(38px,10vh,120px)}
+.support-note p {max-width:34ch;margin-bottom:0}
+.faces button[aria-pressed=true] {outline:2px solid var(--violet);outline-offset:4px;border-radius:50%;background:#ffffffa8}
+@media(min-width:1000px) {
+  #atlas-search {display:block;margin-inline-start:auto}
+  #atlas-search label {display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid white;border-radius:999px;padding-inline:14px}
+  #atlas-search input {min-width:0;width:clamp(95px,12vw,230px);border:0;background:none;padding:10px 0}
+  .site-header #account-button {margin-inline-start:8px}
+  .ref-comp {padding-top:clamp(12px,2.2vw,44px)}
+  .ref-diary .diary-tile {min-height:200px;gap:clamp(10px,1.5vw,30px)}
+  .ref-diary .diary-head {min-height:100px}
+  .ref-diary .diary-head .mini {width:66px;height:66px}
+  .ref-diary .diary-author {border-top:1px solid #fff;padding-top:18px;margin-top:24px}
+  .collection aside {align-self:stretch}
+  .collection aside p b {display:block;color:var(--violet);font-size:38px}
+  .risk-group img {width:clamp(74px,7vw,128px)}
+  .globe-caption .globe-view-title {font-size:clamp(24px,2vw,40px)}
+}
+@media (min-width:700px) and (max-width:999px) and (orientation:portrait) {
+  .ref-comp {grid-template-columns:1fr 1fr}
+  .collection {grid-template-columns:minmax(156px,.32fr) minmax(0,1fr);gap:12px}
+  .ref-diary .diary-tile {grid-template-columns:1fr}
+  .ref-diary .diary-photo {aspect-ratio:4/3}
+}
+@media(max-width:699px) {
+  .support-note {display:none}
+  body:has(.ref-comp) .site-header,body[data-page=collection] .site-header {justify-content:center;min-height:42px;background:transparent}
+  body:has(.ref-comp) .site-header > :not(#ref-page-title),body[data-page=collection] .site-header > :not(#ref-page-title) {display:none}
+  body:has(.ref-comp) #ref-page-title,body[data-page=collection] #ref-page-title {display:block}
+  body:has(.ref-comp) main,body[data-page=travel] main,body[data-page=collection] main {width:100%;padding:0 8px 100px}
+  .pet-switch {justify-content:center;margin:2px 0 4px;gap:6px;font-size:12px;align-items:center}
+  .portrait {padding-top:clamp(170px,51vw,278px)}
+  .portrait-cut {height:clamp(230px,67vw,362px)}
+  .portrait-card {padding-bottom:8px}
+  .portrait-card > small,.portrait-card > a {display:none}
+  .quotes {margin:18px 0 8px}
+  .quotes span {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 6px}
+  .friend-total {width:32px;height:32px}
+  .comp-stories {padding:0 6px}
+  .comp-stories .letter {padding:4px;border:0;background:transparent}
+  .ref-diary .diary-head {position:relative}
+  .ref-diary .diary-head > :not(img) {display:none}
+  body[data-page=travel] .site-header {display:none}
+  .diary-author .mini {width:24px;height:24px;margin-right:4px}
+  .ref-diary .diary-tile {border-radius:18px 18px 6px 6px}
+  .collection>div {padding:12px 6px;background:#ffffff45;border:1px solid white;border-radius:24px}
+  .collection .profile-tags {clear:both;padding-top:8px}
+  .risk-group em {font-style:normal}
+  .risk-group strong {display:none}
+  .globe-panel .globe-presets {display:none}
+  .globe-panel .globe-viewport {top:104px}
+  .globe-panel .globe-summary {height:76px}
+  .globe-panel .globe-legend {bottom:150px}
+  .globe-panel .globe-toolbar {bottom:171px}
+  body:is([data-page=mood],[data-page=photo],[data-page=welcome]) :is(.site-header,.bottom-nav) {display:none}
+  .photo-step {min-height:76svh;gap:clamp(16px,4vh,50px)}
+  .photo-step h1 {font-weight:500}
+  .mood-step {min-height:77svh;align-content:center;gap:44px}
+  .mood-step h1 {max-width:14ch;margin:0 auto 20px}
+  .faces button {font-size:clamp(28px,9vw,56px)}
+  .animal-orbit .panda {width:42%}
+  .welcome .ref-btn {min-width:76%}
+  .photo-puzzle .puzzle-board-shell {border-radius:20px;border:1px solid white}
+  .photo-puzzle .knowledge-card {margin:0 auto;max-width:400px;padding:24px}
+}

@@ -51,7 +51,7 @@ test('English puzzle cards use the same photos and saved progress; locked conten
   const started=await fetch(base+url,{method:'POST',headers:{'Content-Type':'application/json','X-AniKind':'1'},body:JSON.stringify({action:'start'})});
   const cookie=started.headers.get('set-cookie').split(';')[0];let state=await started.json();
   const locked=localizeResponse(url.slice(4),state,'en');assert.deepEqual(locked.cards,[]);assert.deepEqual(locked.progress,state.progress);assert.equal(locked.challenge.image,state.challenge.image);
-  for(let i=0;!state.progress.completed&&i<9;i++)state=await (await fetch(base+url,{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json','X-AniKind':'1'},body:JSON.stringify({action:'hint',version:state.progress.version})})).json();
+for(let i=0;!state.progress.completed&&i<state.challenge.rows*state.challenge.cols;i++)state=await (await fetch(base+url,{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json','X-AniKind':'1'},body:JSON.stringify({action:'hint',version:state.progress.version})})).json();
   const english=localizeResponse(url.slice(4),state,'en');assert.equal(english.cards.length,3);assert.equal(english.challenge.name,'Red panda');assert.deepEqual(english.progress,state.progress);
   for(const card of english.cards)for(const key of ['title','subtitle','section','body','fact','sourceTitle'])assert.ok(!han.test(card[key]),`${key}: ${card[key]}`);
   assert.equal(english.challenge.imageNote,'Red panda · Wildlife photograph');assert.equal(localizeResponse(url.slice(4),state,'zh-CN'),state);

@@ -31,6 +31,10 @@ function clearPrivate(){R.resetPreview();S.pets=[];S.pet=null;S.memories=[];S.fi
 async function guarded(action){try{await action();}catch(e){if(e.status===401&&e.code==='AUTH_REQUIRED'){clearPrivate();S.user=null;closeDialog(true);openAuth();updateChrome();}else formError(e);}}
 async function busy(form,fn){if(modalContext.busy)return;modalContext.busy=true;const b=form.querySelector('button[type=submit]'),label=b?.textContent;if(b){b.disabled=true;b.textContent=t('正在处理…');}$('#form-error')?.replaceChildren();try{await fn();}catch(e){formError(e);}finally{modalContext.busy=false;if(b?.isConnected){b.disabled=false;b.textContent=label;}}}
 function updateChrome(){
+  const searchLabel=language==='en'?'Search wildlife':'搜索物种';
+  const input=$('#atlas-search input');
+  input.placeholder=searchLabel;
+  input.setAttribute('aria-label',searchLabel);
   const [,petId]=location.hash.slice(1).split('/');
   const family=['companion','travel','entry','letter'].includes(S.route)?'memorial':S.route;
   $('#ref-rail').innerHTML=R.sidebar(family,petId);
@@ -46,6 +50,11 @@ function updateChrome(){
   document.querySelectorAll('.bottom-nav a img').forEach((img,i)=>img.src=navIcons[i]);
 }
 function navigate(route){if(location.hash===`#${route}`)void renderRoute();else location.hash=route;}
+$('#atlas-search').addEventListener('submit',event=>{
+  event.preventDefault();
+  S.speciesFilters={q:event.currentTarget.elements.species.value.trim(),region:'',scope:'',category:''};
+  navigate('explore');
+});
 async function loadPrivate(){
   if(!S.user)return;
   const [pets,jobs,exports]=await Promise.all([api('/pets'),api('/jobs'),api('/exports')]);
